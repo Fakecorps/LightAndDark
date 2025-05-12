@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: candle_3
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 21300000, guid: 5cf3c2ce5367b7a42aed8dd06c4c8a92, type: 3}
+  - {fileID: 21300000, guid: e098a53fa29603d4e81deebedf8004f7, type: 3}
+  - {fileID: 21300000, guid: 491d42ae42a18bc46b53a1ddb6c55003, type: 3}
+  - {fileID: 21300000, guid: 8e6b7aa32321a044aabb28d3b9189ab8, type: 3}
+  - {fileID: 21300000, guid: bf2401bd1f6c3cf4e9a911ae3f77557e, type: 3}
+  - {fileID: 21300000, guid: c715b6118f0eee0478c1c9959c6142c3, type: 3}
+  m_MinSpeed: 1
+  m_MaxSpeed: 1
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0
+  m_TileAnimationFlags: 0

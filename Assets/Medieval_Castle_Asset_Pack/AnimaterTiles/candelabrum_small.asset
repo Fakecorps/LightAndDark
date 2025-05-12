@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: candelabrum_small
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 21300000, guid: cd5c4f0bbb5814041a219e8395a9ae73, type: 3}
+  - {fileID: 21300000, guid: c84e71c961201144bb695d505a910b62, type: 3}
+  - {fileID: 21300000, guid: 303d9976f66abd142b74b6a39baf90e3, type: 3}
+  - {fileID: 21300000, guid: 85dda541f32b7a446990e617ece5ef74, type: 3}
+  - {fileID: 21300000, guid: ae2f527e660b5c04091e729efe8f6641, type: 3}
+  - {fileID: 21300000, guid: ef86ab7b7d8c5a140b437535feb6a8e5, type: 3}
+  m_MinSpeed: 7
+  m_MaxSpeed: 7
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0
+  m_TileAnimationFlags: 0
