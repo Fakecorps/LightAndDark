@@ -27,6 +27,8 @@ public class Player : Entity
 
     [Header("Jump Info")]
     public float jumpForce;
+    [Header("Attack Info")]
+    public BoxCollider2D attackArea;
 
     #endregion
 
@@ -78,9 +80,7 @@ public class Player : Entity
     public IEnumerator BusyFor(float _seconds)
     { 
         isBusy = true;
-        Debug.Log("I am busy.");
         yield return new WaitForSeconds(_seconds);
-        Debug.Log("I am not busy.");
         isBusy = false;
     }
 }

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 
-public class GoblinState_Move : EnemyState
+public class GoblinState_Move : GoblinState_Ground
 {
-    private Enemy_Goblin enemy;
-    public GoblinState_Move(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName)
+    public GoblinState_Move(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName, _enemy)
     {
         this.enemy = _enemy;
     }
@@ -31,6 +30,9 @@ public class GoblinState_Move : EnemyState
             enemy.Flip();
             stateMachine.ChangeState(enemy.idleState);
         }
-
+        if (enemy.canAttack)
+        {
+            stateMachine.ChangeState(enemy.attackState);
+        }
     }
 }

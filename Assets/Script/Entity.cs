@@ -8,6 +8,7 @@ public class Entity : MonoBehaviour
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
     public CapsuleCollider2D col { get; private set; }
+
     #endregion
     [Header("Ground Check")]
     [SerializeField] protected Transform groundCheckSpot;

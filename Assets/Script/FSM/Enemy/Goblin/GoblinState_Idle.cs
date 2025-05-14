@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoblinState_Idle : EnemyState
+public class GoblinState_Idle : GoblinState_Ground
 {
-    private Enemy_Goblin enemy;
-    public GoblinState_Idle(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName)
+    public GoblinState_Idle(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName, _enemy)
     {
         this.enemy = _enemy;
     }
@@ -28,5 +27,7 @@ public class GoblinState_Idle : EnemyState
         {
             stateMachine.ChangeState(enemy.moveState);
         }
+
     }
+
 }

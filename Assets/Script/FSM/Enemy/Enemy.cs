@@ -9,6 +9,8 @@ public class Enemy : Entity
     public LayerMask PlayerLayerMask;
     public float moveSpeed;
     public float idleTime;
+    public bool canAttack;
+    public CircleCollider2D Attack_Detect;
     protected override void Awake()
     {
         base.Awake();
@@ -24,6 +26,4 @@ public class Enemy : Entity
         base.Update();
        stateMachine.currentState.Update();
     }
-
-
 }
