@@ -6,6 +6,7 @@ using UnityEngine;
 public class Enemy : Entity
 {
     public EnemyStateMachine stateMachine { get; private set; }
+    [Header("Basic info")]
     public LayerMask PlayerLayerMask;
     public float moveSpeed;
     public float idleTime;

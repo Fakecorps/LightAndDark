@@ -80,5 +80,8 @@ public class Entity : MonoBehaviour
     }
 
     public virtual void ZeroVelocity() => rb.velocity = new Vector2(0, 0);
-
+    public virtual void Damage()
+    {
+        Debug.Log(gameObject.name + "was damaged");
+    }
 }
