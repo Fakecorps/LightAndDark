@@ -12,7 +12,6 @@ public class Switch : MonoBehaviour
     public GameObject Light;
     public GameObject Dark;
     private GameObject _currentPlayer;
-    public GameObject Camera_Point;
 
     private void Awake()
     {
@@ -63,6 +62,6 @@ public class Switch : MonoBehaviour
 
     void Update()
     {
-        Camera_Point.transform.position = _currentPlayer.transform.position;
+        
     }
 }

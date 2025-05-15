@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class Entity : MonoBehaviour
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
     public CapsuleCollider2D col { get; private set; }
-
+    public EntityFX fX { get; private set; }
     #endregion
     [Header("Ground Check")]
     [SerializeField] protected Transform groundCheckSpot;
@@ -21,11 +22,15 @@ public class Entity : MonoBehaviour
     protected int facingDir { get; private set; } = 1;
 
     [Header("Wall Check")]
-    [SerializeField]  protected Transform wallCheckSpot;
+    [SerializeField] protected Transform wallCheckSpot;
 
     [Header("Attack Check")]
     public Transform attackCheckSpot;
     public float attackRadius;
+
+    [Header("OnHit info")]
+    [SerializeField] protected Vector2 onHitDirection;
+    protected bool isOnHit;
     protected virtual void Awake()
     {
 
@@ -35,6 +40,7 @@ public class Entity : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CapsuleCollider2D>();
+        fX = GetComponentInChildren<EntityFX>();
     }
     protected virtual void Update()
     { 
@@ -82,6 +88,15 @@ public class Entity : MonoBehaviour
     public virtual void ZeroVelocity() => rb.velocity = new Vector2(0, 0);
     public virtual void Damage()
     {
+        fX.StartCoroutine("FlashFX");
         Debug.Log(gameObject.name + "was damaged");
+    }
+
+    protected virtual IEnumerator IsOnHit()
+    {
+        isOnHit = true;
+        rb.velocity= new Vector2(onHitDirection.x*facingDir, rb.velocity.y);
+        yield return new WaitForSeconds(0.2f);
+        isOnHit= false;
     }
 }
