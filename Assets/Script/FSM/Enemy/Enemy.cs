@@ -9,8 +9,11 @@ public class Enemy : Entity
     public LayerMask PlayerLayerMask;
     public float moveSpeed;
     public float idleTime;
-    public bool canAttack;
-    public CircleCollider2D Attack_Detect;
+    [Header("Attack info")]
+    public float attackCoolDown;
+    [HideInInspector] public float lastTimeAttacked;//上一次攻击的时间
+    public float attackDistance;//当与玩家间距离小于此距离时开始攻击
+    public float chaseTime;//追击时间
     protected override void Awake()
     {
         base.Awake();
@@ -24,6 +27,15 @@ public class Enemy : Entity
     protected override void Update()
     {
         base.Update();
-       stateMachine.currentState.Update();
+        stateMachine.currentState.Update();
+
+    }
+    public virtual void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+
+    public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheckSpot.position, Vector2.right * facingDir, 50, PlayerLayerMask);
+    public override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        
     }
 }

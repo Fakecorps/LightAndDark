@@ -19,6 +19,13 @@ public class Entity : MonoBehaviour
     [Header("Facing Dir")]
     protected bool facingRight = true;
     protected int facingDir { get; private set; } = 1;
+
+    [Header("Wall Check")]
+    [SerializeField]  protected Transform wallCheckSpot;
+
+    [Header("Attack Check")]
+    public Transform attackCheckSpot;
+    public float attackRadius;
     protected virtual void Awake()
     {
 
@@ -46,6 +53,7 @@ public class Entity : MonoBehaviour
     public virtual void OnDrawGizmos()
     {
         Gizmos.DrawLine(groundCheckSpot.position, new Vector3(groundCheckSpot.position.x, groundCheckSpot.position.y - groundCheckDistance));
+        Gizmos.DrawWireSphere(attackCheckSpot.position, attackRadius);
     }
 
     public virtual void Flip()

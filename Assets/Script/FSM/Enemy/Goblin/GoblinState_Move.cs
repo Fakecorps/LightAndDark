@@ -28,11 +28,8 @@ public class GoblinState_Move : GoblinState_Ground
         if (enemy.isGroundDetected() == false)
         {
             enemy.Flip();
+            enemy.ZeroVelocity();
             stateMachine.ChangeState(enemy.idleState);
-        }
-        if (enemy.canAttack)
-        {
-            stateMachine.ChangeState(enemy.attackState);
         }
     }
 }

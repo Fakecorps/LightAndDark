@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class Player : Entity
 {
-  
+    public static Player Instance { get; private set; }
     #region States
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerState_idle idleState { get; private set; }
@@ -37,6 +37,7 @@ public class Player : Entity
     protected override void Awake()
     {
         base.Awake();
+        Instance = this;    
 
         StateMachine = new PlayerStateMachine();
         idleState = new PlayerState_idle(this, StateMachine, "Idle");
