@@ -1400,7 +1400,7 @@ MonoBehaviour:
   wallCheckSpot: {fileID: 0}
   attackCheckSpot: {fileID: 306708086}
   attackRadius: 0.7
-  onHitDirection: {x: 0, y: 0}
+  isOnHit: 0
   AxisInput: {x: 0, y: 0}
   isBusy: 0
   moveSpeed: 7.5
@@ -1814,7 +1814,7 @@ MonoBehaviour:
   wallCheckSpot: {fileID: 0}
   attackCheckSpot: {fileID: 1177753636}
   attackRadius: 0.68
-  onHitDirection: {x: 0, y: 0}
+  isOnHit: 0
   AxisInput: {x: 0, y: 0}
   isBusy: 0
   moveSpeed: 7.5
@@ -35892,7 +35892,7 @@ Tilemap:
       - {fileID: 21300000, guid: ead9666f1bc273b4dadb0b894f7a5bd7, type: 3}
       - {fileID: 21300000, guid: 50d8e123a3b539a4cbc1bb4312b2ba6a, type: 3}
       - {fileID: 21300000, guid: 5beccd487010847459b151be479f457a, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 30, y: -17, z: 0}
@@ -35918,7 +35918,7 @@ Tilemap:
       - {fileID: 21300000, guid: ead9666f1bc273b4dadb0b894f7a5bd7, type: 3}
       - {fileID: 21300000, guid: 50d8e123a3b539a4cbc1bb4312b2ba6a, type: 3}
       - {fileID: 21300000, guid: 5beccd487010847459b151be479f457a, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 38, y: -17, z: 0}
@@ -35957,7 +35957,7 @@ Tilemap:
       - {fileID: 21300000, guid: ead9666f1bc273b4dadb0b894f7a5bd7, type: 3}
       - {fileID: 21300000, guid: 50d8e123a3b539a4cbc1bb4312b2ba6a, type: 3}
       - {fileID: 21300000, guid: 5beccd487010847459b151be479f457a, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 50, y: -17, z: 0}
@@ -35970,7 +35970,7 @@ Tilemap:
       - {fileID: 21300000, guid: ead9666f1bc273b4dadb0b894f7a5bd7, type: 3}
       - {fileID: 21300000, guid: 50d8e123a3b539a4cbc1bb4312b2ba6a, type: 3}
       - {fileID: 21300000, guid: 5beccd487010847459b151be479f457a, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 54, y: -17, z: 0}
@@ -36282,7 +36282,7 @@ Tilemap:
       - {fileID: 21300000, guid: c4840035b54eb4c4194fb2c5fd2b9563, type: 3}
       - {fileID: 21300000, guid: 602a6afb1f7c40f4e891e99b18558a09, type: 3}
       - {fileID: 21300000, guid: df10f3a988f978e4692c83f5c15a381c, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 124, y: -4, z: 0}
@@ -36672,7 +36672,7 @@ Tilemap:
       - {fileID: 21300000, guid: e85dca4f309791c46957414a10723426, type: 3}
       - {fileID: 21300000, guid: 06721d3f218c72f44bb0981902f20ff4, type: 3}
       - {fileID: 21300000, guid: faada61ba147dfc4bb6b67d947d2047d, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 27, y: 4, z: 0}
@@ -36776,7 +36776,7 @@ Tilemap:
       - {fileID: 21300000, guid: e85dca4f309791c46957414a10723426, type: 3}
       - {fileID: 21300000, guid: 06721d3f218c72f44bb0981902f20ff4, type: 3}
       - {fileID: 21300000, guid: faada61ba147dfc4bb6b67d947d2047d, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 109, y: 7, z: 0}
@@ -36789,7 +36789,7 @@ Tilemap:
       - {fileID: 21300000, guid: e85dca4f309791c46957414a10723426, type: 3}
       - {fileID: 21300000, guid: 06721d3f218c72f44bb0981902f20ff4, type: 3}
       - {fileID: 21300000, guid: faada61ba147dfc4bb6b67d947d2047d, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 113, y: 7, z: 0}
@@ -36841,7 +36841,7 @@ Tilemap:
       - {fileID: 21300000, guid: e85dca4f309791c46957414a10723426, type: 3}
       - {fileID: 21300000, guid: 06721d3f218c72f44bb0981902f20ff4, type: 3}
       - {fileID: 21300000, guid: faada61ba147dfc4bb6b67d947d2047d, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 39, y: 8, z: 0}
@@ -36880,7 +36880,7 @@ Tilemap:
       - {fileID: 21300000, guid: ead9666f1bc273b4dadb0b894f7a5bd7, type: 3}
       - {fileID: 21300000, guid: 50d8e123a3b539a4cbc1bb4312b2ba6a, type: 3}
       - {fileID: 21300000, guid: 5beccd487010847459b151be479f457a, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 63, y: 9, z: 0}
@@ -37023,7 +37023,7 @@ Tilemap:
       - {fileID: 21300000, guid: e85dca4f309791c46957414a10723426, type: 3}
       - {fileID: 21300000, guid: 06721d3f218c72f44bb0981902f20ff4, type: 3}
       - {fileID: 21300000, guid: faada61ba147dfc4bb6b67d947d2047d, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 21, y: 11, z: 0}
@@ -37075,7 +37075,7 @@ Tilemap:
       - {fileID: 21300000, guid: 3b49947c197653e4f9093a2738b22a0d, type: 3}
       - {fileID: 21300000, guid: 6c0f3898a84d92244ae6abaad60f7676, type: 3}
       - {fileID: 21300000, guid: d091815dced49e14298af6b81f15d68c, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 97, y: 12, z: 0}
@@ -37400,7 +37400,7 @@ Tilemap:
       - {fileID: 21300000, guid: e85dca4f309791c46957414a10723426, type: 3}
       - {fileID: 21300000, guid: 06721d3f218c72f44bb0981902f20ff4, type: 3}
       - {fileID: 21300000, guid: faada61ba147dfc4bb6b67d947d2047d, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 27, y: 21, z: 0}
@@ -37629,7 +37629,7 @@ MonoBehaviour:
   wallCheckSpot: {fileID: 1996702996}
   attackCheckSpot: {fileID: 856089596}
   attackRadius: 0.7
-  onHitDirection: {x: 0, y: 0}
+  isOnHit: 0
   PlayerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -37639,6 +37639,8 @@ MonoBehaviour:
   lastTimeAttacked: 0
   attackDistance: 0.8
   chaseTime: 1
+  stunDuration: 1
+  stunDirection: {x: 3, y: 2}
 --- !u!70 &1150437046
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

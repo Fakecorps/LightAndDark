@@ -22,4 +22,5 @@ public class Goblin_Animation_Trigger : MonoBehaviour
             }
         }
     }
+
 }

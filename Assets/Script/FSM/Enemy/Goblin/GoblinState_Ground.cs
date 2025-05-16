@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
 
-public class GoblinState_Ground : EnemyState
+public class GoblinState_Ground : GoblinState_Unprotected
 {
     protected Enemy_Goblin enemy;
-    public GoblinState_Ground(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName)
+    public GoblinState_Ground(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName,_enemy)
     {
         this.enemy = _enemy;
     }
@@ -27,5 +27,6 @@ public class GoblinState_Ground : EnemyState
         {
             stateMachine.ChangeState(enemy.attackState);
         }
+
     }
 }

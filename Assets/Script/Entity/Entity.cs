@@ -29,8 +29,7 @@ public class Entity : MonoBehaviour
     public float attackRadius;
 
     [Header("OnHit info")]
-    [SerializeField] protected Vector2 onHitDirection;
-    protected bool isOnHit;
+    public bool isOnHit;
     protected virtual void Awake()
     {
 
@@ -88,15 +87,11 @@ public class Entity : MonoBehaviour
     public virtual void ZeroVelocity() => rb.velocity = new Vector2(0, 0);
     public virtual void Damage()
     {
+        isOnHit = true;
         fX.StartCoroutine("FlashFX");
         Debug.Log(gameObject.name + "was damaged");
     }
 
-    protected virtual IEnumerator IsOnHit()
-    {
-        isOnHit = true;
-        rb.velocity= new Vector2(onHitDirection.x*facingDir, rb.velocity.y);
-        yield return new WaitForSeconds(0.2f);
-        isOnHit= false;
-    }
+
+
 }

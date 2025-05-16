@@ -9,6 +9,7 @@ public class Enemy_Goblin : Enemy
     public GoblinState_Move moveState { get; private set; }
     public GoblinState_Attack attackState { get; private set; }
     public GoblinState_Battle battleState { get; private set; }
+    public GoblinState_Stun stunState { get; private set; }
     #endregion
     protected override void Awake()
     {
@@ -18,6 +19,7 @@ public class Enemy_Goblin : Enemy
         moveState = new GoblinState_Move(this, stateMachine, "Move", this);
         attackState = new GoblinState_Attack(this, stateMachine, "Move", this);
         battleState = new GoblinState_Battle(this, stateMachine, "Battle", this);
+        stunState = new GoblinState_Stun(this, stateMachine, "OnHit", this);
 
     }
 

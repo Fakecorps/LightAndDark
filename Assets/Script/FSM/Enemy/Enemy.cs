@@ -15,6 +15,10 @@ public class Enemy : Entity
     [HideInInspector] public float lastTimeAttacked;//上一次攻击的时间
     public float attackDistance;//当与玩家间距离小于此距离时开始攻击
     public float chaseTime;//追击时间
+    [Header("Stun info")]
+    public float stunDuration;
+    public Vector2 stunDirection; 
+
     protected override void Awake()
     {
         base.Awake();

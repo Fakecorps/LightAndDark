@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
 
-public class GoblinState_Attack : EnemyState
+public class GoblinState_Attack : GoblinState_Unprotected
 {
     private Enemy_Goblin enemy;
     private int moveDir;
     private float chaseTimer;
-    public GoblinState_Attack(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName)
+    public GoblinState_Attack(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName,_enemy)
     {
         this.enemy = _enemy;
     }

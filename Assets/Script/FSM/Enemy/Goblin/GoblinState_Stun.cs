@@ -1,26 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class GoblinState_Battle : GoblinState_Unprotected
+public class GoblinState_Stun : EnemyState
 {
     private Enemy_Goblin enemy;
-    public GoblinState_Battle(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName,_enemy)
+    public GoblinState_Stun(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
 
     public override void Enter()
     {
-        enemy.ZeroVelocity();
         base.Enter();
+        stateTimer = enemy.stunDuration;
+        enemy.SetVelocity(-enemy.getFacingDir() * enemy.stunDirection.x, enemy.rb.velocity.y+enemy.stunDirection.y);
     }
 
     public override void Exit()
     {
         base.Exit();
-        enemy.lastTimeAttacked = Time.time;
-
     }
 
     public override void Update()
@@ -28,6 +28,7 @@ public class GoblinState_Battle : GoblinState_Unprotected
         base.Update();
         if (triggerCalled)
         {
+            enemy.isOnHit = false;
             stateMachine.ChangeState(enemy.attackState);
         }
     }
