@@ -17,7 +17,9 @@ public class Enemy : Entity
     public float chaseTime;//×·»÷Ê±¼ä
     [Header("Stun info")]
     public float stunDuration;
-    public Vector2 stunDirection; 
+    public Vector2 stunDirection;
+    public bool canBeStunned;
+    [SerializeField] protected GameObject counterImage; 
 
     protected override void Awake()
     {
@@ -28,6 +30,7 @@ public class Enemy : Entity
     protected override void Start()
     {
         base.Start();
+        counterImage.SetActive(false);
     }
     protected override void Update()
     {
@@ -42,5 +45,17 @@ public class Enemy : Entity
     {
         base.OnDrawGizmos();
         
+    }
+
+    public virtual void OpenCounterAttackWindow()
+    {
+        canBeStunned = true; 
+        counterImage.SetActive(true);
+    }
+
+    public virtual void CloseCounterAttackWindow()
+    {
+        canBeStunned = false;
+        counterImage.SetActive(false);
     }
 }

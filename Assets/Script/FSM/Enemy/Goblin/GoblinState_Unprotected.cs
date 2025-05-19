@@ -23,7 +23,11 @@ public class GoblinState_Unprotected : EnemyState
     public override void Update()
     {
         base.Update();
-        if (enemy.isOnHit)
+        if (enemy.isOnHit && !enemy.canBeStunned)
+        {
+            enemy.isOnHit = false;
+        }
+        else if (enemy.isOnHit && enemy.canBeStunned)
         {
             stateMachine.ChangeState(enemy.stunState);
         }

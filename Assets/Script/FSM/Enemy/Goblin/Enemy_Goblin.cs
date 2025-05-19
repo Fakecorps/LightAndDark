@@ -11,6 +11,8 @@ public class Enemy_Goblin : Enemy
     public GoblinState_Battle battleState { get; private set; }
     public GoblinState_Stun stunState { get; private set; }
     #endregion
+    
+    
     protected override void Awake()
     {
         base.Awake();

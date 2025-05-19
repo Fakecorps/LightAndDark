@@ -23,4 +23,6 @@ public class Goblin_Animation_Trigger : MonoBehaviour
         }
     }
 
+    protected void OpenCounterWindow() => enemy.OpenCounterAttackWindow();
+    protected void CloseCounterWindow() => enemy.CloseCounterAttackWindow();
 }
