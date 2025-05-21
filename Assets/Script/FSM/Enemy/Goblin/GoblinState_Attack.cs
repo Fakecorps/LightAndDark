@@ -17,7 +17,7 @@ public class GoblinState_Attack : GoblinState_Unprotected
     public override void Enter()
     {
         base.Enter();
-        PlayerTransform = PlayerManager.instance.player.transform;
+        PlayerTransform = enemy.PlayerTransform;
         chaseTimer = Time.time;
     }
 

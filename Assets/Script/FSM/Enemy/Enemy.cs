@@ -7,6 +7,7 @@ public class Enemy : Entity
 {
     public EnemyStateMachine stateMachine { get; private set; }
     [Header("Basic info")]
+    public Transform PlayerTransform;
     public LayerMask PlayerLayerMask;
     public float moveSpeed;
     public float idleTime;
