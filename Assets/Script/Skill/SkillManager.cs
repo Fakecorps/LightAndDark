@@ -16,8 +16,20 @@ public class SkillManager : MonoBehaviour
     public Skill_D_03 skill_D_03;
     public Skill_D_04 skill_D_04;
     public Skill_D_05 skill_D_05;
-#endregion
+    #endregion
 
+    #region Unlock Skill
+    public bool UnlockSkill_L_01 = true;
+    public bool UnlockSkill_L_02 = true;
+    public bool UnlockSkill_L_03 = true;
+    public bool UnlockSkill_L_04 = true;
+    public bool UnlockSkill_L_05 = true;
+    public bool UnlockSkill_D_01 = true;
+    public bool UnlockSkill_D_02 = true;
+    public bool UnlockSkill_D_03 = true;
+    public bool UnlockSkill_D_04 = true;
+    public bool UnlockSkill_D_05 = true;
+    #endregion
 
     private void Awake()
     {
@@ -39,19 +51,54 @@ public class SkillManager : MonoBehaviour
             switch (skillID)
             {
                 case 0:
-                    skill_L_01.CanUseSkill();
+                    if (UnlockSkill_L_01)
+                    {
+                        skill_L_01.CanUseSkill();
+                    }
+                    else
+                    {
+                        Debug.Log("Skill not unlocked");
+                    }
                     break;
                 case 1:
-                    skill_L_02.CanUseSkill();
+                    if (UnlockSkill_L_02)
+                    { 
+                        skill_L_02.CanUseSkill();
+                    }
+                    else
+                    {
+                        Debug.Log("Skill not unlocked");
+                    }
                     break;
                 case 2:
-                    skill_L_03.CanUseSkill();
+                    if (UnlockSkill_L_03)
+                    {
+                        skill_L_03.CanUseSkill();
+                    }
+                    else
+                    {
+                        Debug.Log("Skill not unlocked");
+                    }
                     break;
                 case 3:
-                    skill_L_04.CanUseSkill();
+                    if (UnlockSkill_L_04)
+                    {
+                        skill_L_04.CanUseSkill();
+                    }
+                    else
+                    {
+                        Debug.Log("Skill not unlocked");
+                    }
                     break;
                 case 4:
-                    skill_L_05.CanUseSkill();
+                    if (UnlockSkill_L_05)
+                    {
+                        skill_L_05.CanUseSkill();
+                    }
+                    else
+                    {
+                        Debug.Log("Skill not unlocked");
+                    }
                     break;
             }
         }
@@ -60,19 +107,55 @@ public class SkillManager : MonoBehaviour
             switch (skillID)
             {
                 case 0:
-                    skill_D_01.CanUseSkill();
+                    if (UnlockSkill_D_01)
+                    {
+                        skill_D_01.CanUseSkill();
+                    }
+                    else
+                    {
+                        Debug.Log("Skill not unlocked");
+                    }
                     break;
                 case 1:
-                    skill_D_02.CanUseSkill();
+                    if (UnlockSkill_D_02)
+                    {
+                        skill_D_02.CanUseSkill();
+                    }
+                    else
+                    {
+                        Debug.Log("Skill not unlocked");
+                    }
                     break;
                 case 2:
-                    skill_D_03.CanUseSkill();
+                    if (UnlockSkill_D_03)
+                    {
+                        skill_D_03.CanUseSkill();
+                    }
+                    else
+                    {
+                        Debug.Log("Skill not unlocked");
+                    }
                     break;
                 case 3:
-                    skill_D_04.CanUseSkill();
+                    if (UnlockSkill_D_04)
+                    {
+                        skill_D_04.CanUseSkill();
+                    }
+                    else
+                    {
+                        Debug.Log("Skill not unlocked");
+                    }
                     break;
                 case 4:
-                    skill_D_05.CanUseSkill();
+                    if (UnlockSkill_D_05)
+                    {
+                        skill_D_05.CanUseSkill();
+                    }
+                    else
+                    {
+                        Debug.Log("Skill not unlocked");
+                    }
+
                     break;
 
 
