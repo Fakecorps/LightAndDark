@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager instance;
-    public Player player;
+    [SerializeField]private Player player;
+    public bool isPlayerLight;
     private void Awake()
     {
         if (instance == null)
@@ -16,5 +17,25 @@ public class PlayerManager : MonoBehaviour
         { 
             Destroy(instance);
         }
+
+        player = FindActivePlayer();
+        isPlayerLight = true;
+    }
+
+    private Player FindActivePlayer()
+    {
+        foreach (Player p in FindObjectsOfType<Player>())
+        {
+            if (p.gameObject.activeSelf)
+            {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public void SetActivePlayer(Player activePlayer)
+    {
+        player = activePlayer;
     }
 }

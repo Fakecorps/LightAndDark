@@ -17,6 +17,7 @@ public class Switch : MonoBehaviour
     {
         _inputControl = new PlayerInput();
         _inputControl.Player.Switch.started += SwitchController;
+
     }
     private void OnEnable()
     {
@@ -39,15 +40,22 @@ public class Switch : MonoBehaviour
         Debug.Log("Switched");
         if (Light.activeInHierarchy)
         {
+
             Light.SetActive(false);
             Dark.SetActive(true);
             _currentPlayer = Dark;
+            Player currentPlayer = _currentPlayer.GetComponent<Player>();
+            PlayerManager.instance.SetActivePlayer(currentPlayer);
+            PlayerManager.instance.isPlayerLight = false;
         }
         else if (Dark.activeInHierarchy)
         {
             Light.SetActive(true);
             Dark.SetActive(false);
             _currentPlayer = Light;
+            Player currentPlayer = _currentPlayer.GetComponent<Player>();
+            PlayerManager.instance.SetActivePlayer(currentPlayer);
+            PlayerManager.instance.isPlayerLight = true;
         }
         _currentPlayer.transform.position = currentPosition;
 
@@ -60,8 +68,4 @@ public class Switch : MonoBehaviour
         _currentPlayer = Light;
     }
 
-    void Update()
-    {
-        
-    }
 }

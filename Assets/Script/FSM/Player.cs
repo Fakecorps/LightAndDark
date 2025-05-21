@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,6 @@ using UnityEngine.InputSystem;
 
 public class Player : Entity
 {
-    public static Player Instance { get; private set; }
     #region States
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerState_idle idleState { get; private set; }
@@ -19,6 +19,7 @@ public class Player : Entity
     #region Input
     public PlayerInput inputControl { get; private set; }
     public Vector2 AxisInput;
+    
     #endregion
     #region Info
     public bool isBusy;
@@ -37,7 +38,6 @@ public class Player : Entity
     protected override void Awake()
     {
         base.Awake();
-        Instance = this;    
 
         StateMachine = new PlayerStateMachine();
         idleState = new PlayerState_idle(this, StateMachine, "Idle");
@@ -51,8 +51,12 @@ public class Player : Entity
     protected override void Start()
     {
         base.Start();
-
         StateMachine.Initialize(idleState);
+        inputControl.Player.Skill01.started += ctx => SkillManager.instance.UseSkill(0);
+        inputControl.Player.Skill02.started += ctx => SkillManager.instance.UseSkill(1);
+        inputControl.Player.Skill03.started += ctx => SkillManager.instance.UseSkill(2);
+        inputControl.Player.Skill04.started += ctx => SkillManager.instance.UseSkill(3);
+        inputControl.Player.Skill05.started += ctx => SkillManager.instance.UseSkill(4);
     }
 
     protected override void Update()
