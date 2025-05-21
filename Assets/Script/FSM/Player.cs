@@ -29,7 +29,8 @@ public class Player : Entity
     [Header("Jump Info")]
     public float jumpForce;
     [Header("Attack Info")]
-    public BoxCollider2D attackArea;
+    int Normal_Attack_Damage;
+    
 
     #endregion
 

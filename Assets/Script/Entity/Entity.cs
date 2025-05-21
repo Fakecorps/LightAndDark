@@ -10,6 +10,7 @@ public class Entity : MonoBehaviour
     public Rigidbody2D rb { get; private set; }
     public CapsuleCollider2D col { get; private set; }
     public EntityFX fX { get; private set; }
+    public HealthSystem HPSystem { get; private set; }
     #endregion
     [Header("Ground Check")]
     [SerializeField] protected Transform groundCheckSpot;
@@ -85,7 +86,7 @@ public class Entity : MonoBehaviour
     }
 
     public virtual void ZeroVelocity() => rb.velocity = new Vector2(0, 0);
-    public virtual void Damage()
+    public virtual void TakeDamage()
     {
         isOnHit = true;
         fX.StartCoroutine("FlashFX");
