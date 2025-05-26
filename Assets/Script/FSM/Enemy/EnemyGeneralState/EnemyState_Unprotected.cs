@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoblinState_Unprotected : EnemyState
+public class EnemyState_Unprotected : EnemyState
 {
-    private Enemy_Goblin enemy;
-    public GoblinState_Unprotected(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName)
+    private Enemy enemy;
+    public EnemyState_Unprotected(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName) : base(_enemyBase, _stateMachine, _animBoolName)
     {
-        this.enemy = _enemy;
+        this.enemy = _enemyBase;
     }
 
     public override void Enter()
@@ -29,7 +29,12 @@ public class GoblinState_Unprotected : EnemyState
         }
         else if (enemy.isOnHit && enemy.canBeStunned)
         {
-            stateMachine.ChangeState(enemy.stunState);
+            if(enemy is Enemy_Goblin)
+            {
+                var goblin = enemy as Enemy_Goblin;
+                stateMachine.ChangeState(goblin.stunState);
+            }
+            
         }
     }
 }

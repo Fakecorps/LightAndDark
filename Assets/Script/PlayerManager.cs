@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager instance;
-    [SerializeField]private Player player;
+    public Player player;
     public bool isPlayerLight;
     private void Awake()
     {

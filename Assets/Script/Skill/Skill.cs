@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Skill : MonoBehaviour
 {
+    protected Player player;
     [SerializeField] protected float cooldown;
     protected float cooldownTimer;
 
@@ -26,6 +27,6 @@ public class Skill : MonoBehaviour
 
     public virtual void UseSkill()
     { 
-        
+        player = Player.ActivePlayer;
     }
 }

@@ -33,9 +33,19 @@ public class Player : Entity
 
 
     #endregion
+    public static Player ActivePlayer { get; private set; }
 
-    private void OnEnable() => inputControl.Enable();
-    private void OnDisable() => inputControl.Disable();
+    private void OnEnable()
+    {
+        inputControl.Enable();
+        ActivePlayer = this;
+    }
+    private void OnDisable()
+    {
+        inputControl.Disable();
+        if (ActivePlayer == this)
+            ActivePlayer = null;
+    }
     protected override void Awake()
     {
         base.Awake();

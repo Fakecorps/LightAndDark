@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 
-public class GoblinState_Move : GoblinState_Ground
+public class EnemyState_Move : EnemyState_Ground
 {
-    public GoblinState_Move(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName, _enemy)
+    public EnemyState_Move(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName) : base(_enemyBase, _stateMachine, _animBoolName)
     {
-        this.enemy = _enemy;
+        this.enemy = _enemyBase;
     }
 
     public override void Enter()

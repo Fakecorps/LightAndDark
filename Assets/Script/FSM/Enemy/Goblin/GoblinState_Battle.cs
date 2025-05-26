@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoblinState_Battle : GoblinState_Unprotected
+public class GoblinState_Battle : EnemyState_Unprotected
 {
     private Enemy_Goblin enemy;
-    public GoblinState_Battle(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName,_enemy)
+    public GoblinState_Battle(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }

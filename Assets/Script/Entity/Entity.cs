@@ -12,6 +12,7 @@ public class Entity : MonoBehaviour
     public EntityFX fX { get; private set; }
     public HealthSystem HPSystem { get; set; }
     #endregion
+
     [Header("Ground Check")]
     [SerializeField] protected Transform groundCheckSpot;
     public bool isGrounded;

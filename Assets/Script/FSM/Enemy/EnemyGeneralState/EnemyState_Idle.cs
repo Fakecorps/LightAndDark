@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoblinState_Idle : GoblinState_Ground
+public class EnemyState_Idle : EnemyState_Ground
 {
-    public GoblinState_Idle(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName, _enemy)
+    public EnemyState_Idle(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName) : base(_enemyBase, _stateMachine, _animBoolName)
     {
-        this.enemy = _enemy;
+        this.enemy = _enemyBase;
     }
 
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("EnemyState_Idle: Enter");
         stateTimer = enemy.idleTime;
     }
 

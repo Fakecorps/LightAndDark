@@ -21,12 +21,22 @@ public class Enemy : Entity
     public float stunDuration;
     public Vector2 stunDirection;
     public bool canBeStunned;
-    [SerializeField] protected GameObject counterImage; 
+    [SerializeField] protected GameObject counterImage;
+    [Header("AI Settings")]
+    public bool enableChase = true;
+
+    #region States
+    public EnemyState_Idle idleState { get; protected set; }
+    public EnemyState_Move moveState { get; protected set; }
+    public EnemyState_Ground gourndState { get; protected set; }
+    #endregion
 
     protected override void Awake()
     {
         base.Awake();
         stateMachine = new EnemyStateMachine();
+        idleState = new EnemyState_Idle(this, stateMachine, "Idle");
+        moveState = new EnemyState_Move(this, stateMachine, "Move");
     }
 
     protected override void Start()
