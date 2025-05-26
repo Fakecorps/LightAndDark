@@ -13,9 +13,10 @@ public class Enemy : Entity
     public float idleTime;
     [Header("Attack info")]
     public float attackCoolDown;
-    [HideInInspector] public float lastTimeAttacked;//ÉÏÒ»´Î¹¥»÷µÄÊ±¼ä
-    public float attackDistance;//µ±ÓëÍæ¼Ò¼ä¾àÀëĞ¡ÓÚ´Ë¾àÀëÊ±¿ªÊ¼¹¥»÷
-    public float chaseTime;//×·»÷Ê±¼ä
+    [HideInInspector] public float lastTimeAttacked;//ä¸Šä¸€æ¬¡æ”»å‡»çš„æ—¶é—´
+    public float attackDistance;//å½“ä¸ç©å®¶é—´è·ç¦»å°äºæ­¤è·ç¦»æ—¶å¼€å§‹æ”»å‡»
+    public float chaseTime;//è¿½å‡»æ—¶é—´
+    public int damage;
     [Header("Stun info")]
     public float stunDuration;
     public Vector2 stunDirection;

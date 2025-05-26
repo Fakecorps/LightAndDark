@@ -29,8 +29,8 @@ public class Player : Entity
     [Header("Jump Info")]
     public float jumpForce;
     [Header("Attack Info")]
-    int Normal_Attack_Damage;
-    
+    public int Normal_Attack_Damage;
+
 
     #endregion
 
@@ -53,6 +53,7 @@ public class Player : Entity
     {
         base.Start();
         StateMachine.Initialize(idleState);
+        HPSystem = HealthSystemManager.PlayerHealth;
         inputControl.Player.Skill01.started += ctx => SkillManager.instance.UseSkill(0);
         inputControl.Player.Skill02.started += ctx => SkillManager.instance.UseSkill(1);
         inputControl.Player.Skill03.started += ctx => SkillManager.instance.UseSkill(2);

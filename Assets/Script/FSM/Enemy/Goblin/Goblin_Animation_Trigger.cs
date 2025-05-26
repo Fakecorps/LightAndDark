@@ -18,7 +18,7 @@ public class Goblin_Animation_Trigger : MonoBehaviour
         {
             if (hit.GetComponent<Player>() != null)
             {
-                hit.GetComponent<Player>().TakeDamage();
+                hit.GetComponent<Player>().TakeDamage(enemy.damage);
             }
         }
     }

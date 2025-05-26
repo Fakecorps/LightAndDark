@@ -12,6 +12,7 @@ public class Skill_D_01 : Skill
     public override void UseSkill()
     {
         base.UseSkill();
+
         Debug.Log("Skill_D_01");
     }
 
@@ -19,4 +20,5 @@ public class Skill_D_01 : Skill
     {
         base.Update();
     }
+
 }

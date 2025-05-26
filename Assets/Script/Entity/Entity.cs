@@ -10,12 +10,12 @@ public class Entity : MonoBehaviour
     public Rigidbody2D rb { get; private set; }
     public CapsuleCollider2D col { get; private set; }
     public EntityFX fX { get; private set; }
-    public HealthSystem HPSystem { get; private set; }
+    public HealthSystem HPSystem { get; set; }
     #endregion
     [Header("Ground Check")]
     [SerializeField] protected Transform groundCheckSpot;
     public bool isGrounded;
-    [SerializeField] protected LayerMask groundLayer; // ����㼶
+    [SerializeField] protected LayerMask groundLayer; // 地面层级
     [SerializeField] protected float groundCheckDistance = 0.1f;
 
     [Header("Facing Dir")]
@@ -41,6 +41,13 @@ public class Entity : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CapsuleCollider2D>();
         fX = GetComponentInChildren<EntityFX>();
+        if (this is Enemy)
+        {
+            HPSystem = GetComponent<HealthSystem>();
+            if (HPSystem == null) // 如果预制体未挂载则自动添加
+                HPSystem = gameObject.AddComponent<HealthSystem>();
+        }
+
     }
     protected virtual void Update()
     { 
@@ -86,11 +93,15 @@ public class Entity : MonoBehaviour
     }
 
     public virtual void ZeroVelocity() => rb.velocity = new Vector2(0, 0);
-    public virtual void TakeDamage()
+    public virtual void TakeDamage(int damage)
     {
+        if (HPSystem == null) return;
+
         isOnHit = true;
         fX.StartCoroutine("FlashFX");
-        Debug.Log(gameObject.name + "was damaged");
+        HPSystem.TakeDamage(damage); // 调用HealthSystem
+
+        Debug.Log($"{gameObject.name}受到{damage}点伤害");
     }
 
 
