@@ -7,65 +7,44 @@ using UnityEngine.InputSystem.Switch;
 
 public class Switch : MonoBehaviour
 {
+    [SerializeField] private GameObject lightPlayer;
+    [SerializeField] private GameObject darkPlayer;
 
-    private PlayerInput _inputControl;
-    public GameObject Light;
-    public GameObject Dark;
-    private GameObject _currentPlayer;
+    private PlayerInput _input;
+    private Vector3 _lastPosition;
 
     private void Awake()
     {
-        _inputControl = new PlayerInput();
-        _inputControl.Player.Switch.started += SwitchController;
-
+        _input = new PlayerInput();
+        _input.Player.Switch.started += OnSwitch;
+        lightPlayer.gameObject.SetActive(true);
+        darkPlayer.gameObject.SetActive(false);
     }
-    private void OnEnable()
+
+    private void Start()
     {
-        _inputControl.Enable();
+        _lastPosition = transform.position;
     }
 
-    private void OnDisable()
+    private void OnSwitch(InputAction.CallbackContext context)
     {
-        _inputControl.Disable();
+        if (PlayerManager.Instance.player.IsAttacking()) return;
+
+        _lastPosition = PlayerManager.Instance.player.transform.position;
+
+        GameObject newPlayer = lightPlayer.activeSelf ? darkPlayer : lightPlayer;
+        SetActivePlayer(newPlayer);
     }
-    private void SwitchController(InputAction.CallbackContext context)
+
+    private void SetActivePlayer(GameObject target)
     {
-        Player currentPlayerComponent = _currentPlayer.GetComponent<Player>();
-        if (currentPlayerComponent.IsAttacking())
-        {
-            Debug.Log("Cannot switch while attacking");
-            return;
-        }
-        Vector3 currentPosition = _currentPlayer.transform.position;
-        Debug.Log("Switched");
-        if (Light.activeInHierarchy)
-        {
+        lightPlayer.SetActive(target == lightPlayer);
+        darkPlayer.SetActive(target == darkPlayer);
 
-            Light.SetActive(false);
-            Dark.SetActive(true);
-            _currentPlayer = Dark;
-            Player currentPlayer = _currentPlayer.GetComponent<Player>();
-            PlayerManager.instance.SetActivePlayer(currentPlayer);
-            PlayerManager.instance.isPlayerLight = false;
-        }
-        else if (Dark.activeInHierarchy)
-        {
-            Light.SetActive(true);
-            Dark.SetActive(false);
-            _currentPlayer = Light;
-            Player currentPlayer = _currentPlayer.GetComponent<Player>();
-            PlayerManager.instance.SetActivePlayer(currentPlayer);
-            PlayerManager.instance.isPlayerLight = true;
-        }
-        _currentPlayer.transform.position = currentPosition;
-
+        PlayerManager.Instance.SwitchPlayer(target.GetComponent<Player>());
+        target.transform.position = _lastPosition;
     }
 
-    void Start()
-    {
-        Light.SetActive(true);
-        Dark.SetActive(false);
-        _currentPlayer = Light;
-    }
-
+    private void OnEnable() => _input.Enable();
+    private void OnDisable() => _input.Disable();
 }

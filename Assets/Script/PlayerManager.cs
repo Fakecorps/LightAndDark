@@ -4,38 +4,41 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public static PlayerManager instance;
+    public static PlayerManager Instance { get; private set; }
     public Player player;
     public bool isPlayerLight;
+
     private void Awake()
     {
-        if (instance == null)
+        if (Instance != null && Instance != this)
         {
-            instance = this;
-        }
-        else
-        { 
-            Destroy(instance);
+            Destroy(this.gameObject);
+            return;
         }
 
-        player = FindActivePlayer();
-        isPlayerLight = true;
+        Instance = this;
+        InitializePlayer();
+    }
+
+    private void InitializePlayer()
+    {
+
+        isPlayerLight = player != null;
     }
 
     private Player FindActivePlayer()
     {
-        foreach (Player p in FindObjectsOfType<Player>())
+        foreach (Player p in FindObjectsByType<Player>(FindObjectsSortMode.None))
         {
-            if (p.gameObject.activeSelf)
-            {
+            if (p.gameObject.activeInHierarchy)
                 return p;
-            }
         }
         return null;
-    }
+    }  
 
-    public void SetActivePlayer(Player activePlayer)
+    public void SwitchPlayer(Player newPlayer)
     {
-        player = activePlayer;
+        player = newPlayer;
+        isPlayerLight = !isPlayerLight;
     }
 }

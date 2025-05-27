@@ -244,7 +244,6 @@ MonoBehaviour:
   attackCheckSpot: {fileID: 2352235646698316627}
   attackRadius: 0.7
   isOnHit: 0
-  PlayerTransform: {fileID: 5430039647818354746, guid: 38014127ee5a5d249be6d512118aa5c6, type: 3}
   PlayerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -260,6 +259,8 @@ MonoBehaviour:
   canBeStunned: 0
   counterImage: {fileID: 8168363380105193110}
   enableChase: 1
+  updateTargetInterval: 0.5
+  PlayerTransform: {fileID: 0}
 --- !u!114 &6716198967517890197
 MonoBehaviour:
   m_ObjectHideFlags: 0

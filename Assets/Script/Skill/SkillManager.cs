@@ -46,7 +46,7 @@ public class SkillManager : MonoBehaviour
 
     public void UseSkill(int skillID)
     {
-        if (PlayerManager.instance.isPlayerLight)
+        if (PlayerManager.Instance.isPlayerLight)
         {
             switch (skillID)
             {

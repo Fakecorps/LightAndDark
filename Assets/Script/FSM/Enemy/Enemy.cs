@@ -7,7 +7,7 @@ public class Enemy : Entity
 {
     public EnemyStateMachine stateMachine { get; private set; }
     [Header("Basic info")]
-    public Transform PlayerTransform;
+
     public LayerMask PlayerLayerMask;
     public float moveSpeed;
     public float idleTime;
@@ -24,6 +24,10 @@ public class Enemy : Entity
     [SerializeField] protected GameObject counterImage;
     [Header("AI Settings")]
     public bool enableChase = true;
+    public float updateTargetInterval = 0.5f;
+
+    public Transform PlayerTransform;
+    private float _targetUpdateTimer;
 
     #region States
     public EnemyState_Idle idleState { get; protected set; }
@@ -43,11 +47,13 @@ public class Enemy : Entity
     {
         base.Start();
         counterImage.SetActive(false);
+        UpdatePlayerTarget();
     }
     protected override void Update()
     {
         base.Update();
         stateMachine.currentState.Update();
+        UpdateTargetTracking();
 
     }
     public virtual void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
@@ -69,5 +75,33 @@ public class Enemy : Entity
     {
         canBeStunned = false;
         counterImage.SetActive(false);
+    }
+
+    private void UpdateTargetTracking()
+    {
+        _targetUpdateTimer -= Time.deltaTime;
+        if (_targetUpdateTimer <= 0)
+        {
+            UpdatePlayerTarget();
+            _targetUpdateTimer = updateTargetInterval;
+        }
+    }
+
+    private void UpdatePlayerTarget()
+    {
+        if (PlayerManager.Instance != null && PlayerManager.Instance.player != null)
+        {
+            PlayerTransform = PlayerManager.Instance.player.transform;
+        }
+        else
+        {
+            Debug.LogWarning("Player reference not found!");
+        }
+    }
+
+    public Vector2 GetPlayerDirection()
+    {
+        if (PlayerTransform == null) return Vector2.zero;
+        return (PlayerTransform.position - transform.position).normalized;
     }
 }
