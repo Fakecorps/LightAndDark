@@ -244,6 +244,7 @@ MonoBehaviour:
   attackCheckSpot: {fileID: 2352235646698316627}
   attackRadius: 0.7
   isOnHit: 0
+  KnockBackForce: {x: 0, y: 2}
   PlayerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -255,7 +256,7 @@ MonoBehaviour:
   chaseTime: 1
   damage: 5
   stunDuration: 1
-  stunDirection: {x: 2.5, y: 2}
+  stunDirection: {x: 1.5, y: 1}
   canBeStunned: 0
   counterImage: {fileID: 8168363380105193110}
   enableChase: 1

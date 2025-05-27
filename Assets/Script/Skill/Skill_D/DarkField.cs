@@ -5,8 +5,8 @@ using UnityEngine;
 public class DarkField : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float radius = 3f;
-    [SerializeField] private float damageInterval = 0.1f;
+    [SerializeField] private float radius = 5f;
+    [SerializeField] private float damageInterval = 0.2f;
     [SerializeField] private int damagePerTick = 5;
     [SerializeField] private float slowPercentage = 0.5f;
 
@@ -23,11 +23,12 @@ public class DarkField : MonoBehaviour
         fieldVisual.color = new Color(fieldColor.r, fieldColor.g, fieldColor.b, 0);
         StartCoroutine(ExpandField());
         StartCoroutine(DamageRoutine());
+        
     }
 
     private IEnumerator ExpandField()
     {
-        float duration = 1f;
+        float duration = 0.2f;
         float timer = 0;
 
         // 同时控制缩放和透明度
@@ -60,15 +61,18 @@ public class DarkField : MonoBehaviour
         {
             foreach (Enemy enemy in affectedEnemies)
             {
+                enemy.enableChase = false;
                 if (enemy is Enemy_Goblin)
-                { 
+                {
                     var goblin = enemy as Enemy_Goblin;
-                    goblin.stateMachine.ChangeState(goblin.stunState);
+                    
+                    goblin.stateMachine.ChangeState(goblin.knockbackState);
                 }
                 enemy.TakeDamage(damagePerTick);
             }
             yield return new WaitForSeconds(damageInterval);
         }
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -76,7 +80,6 @@ public class DarkField : MonoBehaviour
         if (other.TryGetComponent<Enemy>(out Enemy enemy))
         {
             affectedEnemies.Add(enemy);
-            enemy.moveSpeed *= slowPercentage;
         }
     }
 
@@ -85,7 +88,7 @@ public class DarkField : MonoBehaviour
         if (other.TryGetComponent<Enemy>(out Enemy enemy))
         {
             affectedEnemies.Remove(enemy);
-            enemy.moveSpeed /= slowPercentage;
+            enemy.enableChase = true;
         }
     }
 

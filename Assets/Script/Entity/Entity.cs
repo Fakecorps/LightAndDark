@@ -32,6 +32,7 @@ public class Entity : MonoBehaviour
 
     [Header("OnHit info")]
     public bool isOnHit;
+    public Vector2 KnockBackForce;
     protected virtual void Awake()
     {
 
@@ -101,10 +102,13 @@ public class Entity : MonoBehaviour
         isOnHit = true;
         fX.StartCoroutine("FlashFX");
         HPSystem.TakeDamage(damage); // 调用HealthSystem
-
+        KnockBack(KnockBackForce.x, KnockBackForce.y);
         Debug.Log($"{gameObject.name}受到{damage}点伤害");
     }
 
-
+    public virtual void KnockBack(float _xForce, float _yForce)
+    {
+        SetVelocity( -facingDir * _xForce, rb.velocity.y + _yForce);
+    }
 
 }

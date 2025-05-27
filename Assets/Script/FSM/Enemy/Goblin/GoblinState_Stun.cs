@@ -14,7 +14,7 @@ public class GoblinState_Stun : EnemyState
     public override void Enter()
     {
         base.Enter();
-        enemy.isOnHit = false;
+        enemy.isOnHit = true;
         stateTimer = enemy.stunDuration;
         enemy.SetVelocity(-enemy.getFacingDir() * enemy.stunDirection.x, enemy.rb.velocity.y+enemy.stunDirection.y);
         enemy.CloseCounterAttackWindow();
@@ -23,6 +23,7 @@ public class GoblinState_Stun : EnemyState
     public override void Exit()
     {
         base.Exit();
+        enemy.isOnHit = false;
     }
 
     public override void Update()

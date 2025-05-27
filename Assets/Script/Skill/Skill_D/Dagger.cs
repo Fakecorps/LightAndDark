@@ -9,6 +9,7 @@ public class Dagger : MonoBehaviour
     [SerializeField] private GameObject darkFieldPrefab;
 
     private Rigidbody2D rb;
+    public GameObject daggerImage;
     private int direction;
     private bool hasHit;
 
@@ -20,6 +21,11 @@ public class Dagger : MonoBehaviour
     public void SetupDagger(int facingDir, float speed)
     {
         direction = facingDir;
+        if (facingDir != 1)
+        { 
+            daggerImage.transform.Rotate(0, 0, 180);
+        }
+
         rb.velocity = new Vector2(speed * direction, 0);
     }
 
