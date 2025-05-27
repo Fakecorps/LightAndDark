@@ -5,24 +5,15 @@ using UnityEngine;
 
 public class PlayerPosTrace : MonoBehaviour
 {
-    public GameObject light;
-    public GameObject dark;
+    Player player;
     void Start()
     {
-        
+        player = PlayerManager.instance.player;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if(!dark.activeSelf)
-        {
-            transform.position = light.transform.position;
-        }
-        else
-        {
-            transform.position = dark.transform.position;
-        }
-
+        player = PlayerManager.instance.player;
+        transform.position = player.transform.position;
+        Debug.Log(transform.position);
     }
 }

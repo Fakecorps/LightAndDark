@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Skill_D_02 : Skill
 {
+    [SerializeField] private GameObject daggerPrefab;
+    [SerializeField] private float daggerSpeed = 20f;
     public override bool CanUseSkill()
     {
         return base.CanUseSkill();
@@ -12,7 +14,12 @@ public class Skill_D_02 : Skill
     public override void UseSkill()
     {
         base.UseSkill();
-        Debug.Log("Skill_D_02");
+        Player player = Player.ActivePlayer;
+        if (player == null) return;
+
+        Vector3 spawnPos = player.attackCheckSpot.position;
+        GameObject dagger = Instantiate(daggerPrefab, spawnPos, Quaternion.identity);
+        dagger.GetComponent<Dagger>().SetupDagger(player.getFacingDir(), daggerSpeed);
     }
 
     protected override void Update()
