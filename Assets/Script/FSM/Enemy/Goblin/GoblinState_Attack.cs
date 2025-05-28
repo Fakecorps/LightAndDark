@@ -9,7 +9,12 @@ public class GoblinState_Attack : EnemyState_Unprotected
     private int moveDir;
     private float chaseTimer;
     private Transform PlayerTransform;
-    public GoblinState_Attack(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName) 
+    private Transform DecoyTransform;
+    private Transform TargetTransform;
+
+    private RaycastHit2D isTargetDetected;
+
+    public GoblinState_Attack(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -18,43 +23,53 @@ public class GoblinState_Attack : EnemyState_Unprotected
     {
         base.Enter();
         PlayerTransform = enemy.PlayerTransform;
+        DecoyTransform = Skill_D_03.Instance.DecoyTransform;
         chaseTimer = Time.time;
     }
 
     public override void Exit()
     {
         base.Exit();
-        
+
     }
 
     void Start()
     {
-         
+
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (PlayerTransform.position.x > enemy.transform.position.x)
+        SetChaseTarget(Skill_D_03.Instance.isStealthed);
+
+        if (TargetTransform.position.x > enemy.transform.position.x)
         {
             moveDir = 1;
         }
-        else if(PlayerTransform.position.x < enemy.transform.position.x)
+        else if (TargetTransform.position.x < enemy.transform.position.x)
         {
             moveDir = -1;
         }
 
-        enemy.SetVelocity(enemy.moveSpeed * moveDir,enemy.rb.velocity.y);
-        
-        if (enemy.IsPlayerDetected().distance<enemy.attackDistance && Time.time >= enemy.lastTimeAttacked + enemy.attackCoolDown)
+        enemy.SetVelocity(enemy.moveSpeed * moveDir, enemy.rb.velocity.y);
+
+        if (isTargetDetected.distance < enemy.attackDistance && Time.time >= enemy.lastTimeAttacked + enemy.attackCoolDown)
         {
             stateMachine.ChangeState(enemy.battleState);
         }
 
-        if (!enemy.IsPlayerDetected() && Time.time - chaseTimer > enemy.chaseTime)
+        if (!isTargetDetected && Time.time - chaseTimer > enemy.chaseTime)
         {
             stateMachine.ChangeState(enemy.idleState);
         }
     }
+
+    private void SetChaseTarget(bool isDarkStealth)
+    {
+        TargetTransform = isDarkStealth ? DecoyTransform : PlayerTransform;
+        isTargetDetected = isDarkStealth ? enemy.IsDecoyDetected() : enemy.IsPlayerDetected();
+    }
 }
+

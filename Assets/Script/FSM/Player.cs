@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,18 +20,17 @@ public class Player : Entity
     #region Input
     public PlayerInput inputControl { get; private set; }
     public Vector2 AxisInput;
-    
+
     #endregion
+    public SpriteRenderer sr;
     #region Info
     public bool isBusy;
     [Header("Move Info")]
     public float moveSpeed;
-
     [Header("Jump Info")]
     public float jumpForce;
     [Header("Attack Info")]
     public int Normal_Attack_Damage;
-
 
     #endregion
     public static Player ActivePlayer { get; private set; }
@@ -57,6 +57,7 @@ public class Player : Entity
         airState = new PlayerState_Air(this, StateMachine, "Jump");
         primaryAttack = new PlayerState_PrimaryAttack(this, StateMachine, "Attack");
         inputControl = new PlayerInput();
+        sr = GetComponentInChildren<SpriteRenderer>();
     }
 
     protected override void Start()

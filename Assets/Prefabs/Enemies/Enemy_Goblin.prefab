@@ -248,6 +248,9 @@ MonoBehaviour:
   PlayerLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  DecoyLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
   moveSpeed: 3.7
   idleTime: 3
   attackCoolDown: 0.5
@@ -262,6 +265,8 @@ MonoBehaviour:
   enableChase: 1
   updateTargetInterval: 0.5
   PlayerTransform: {fileID: 0}
+  DecoyTransform: {fileID: 0}
+  isDarkStealth: 0
 --- !u!114 &6716198967517890197
 MonoBehaviour:
   m_ObjectHideFlags: 0

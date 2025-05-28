@@ -20,6 +20,10 @@ public class Goblin_Animation_Trigger : MonoBehaviour
             {
                 hit.GetComponent<Player>().TakeDamage(enemy.damage);
             }
+            if(hit.GetComponent<Decoy>() != null)
+            {
+                hit.GetComponent<Decoy>().Explosion();
+            }
         }
     }
 

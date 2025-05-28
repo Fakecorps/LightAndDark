@@ -9,6 +9,8 @@ public class Enemy : Entity
     [Header("Basic info")]
 
     public LayerMask PlayerLayerMask;
+    public LayerMask DecoyLayerMask;
+
     public float moveSpeed;
     public float idleTime;
     [Header("Attack info")]
@@ -27,12 +29,14 @@ public class Enemy : Entity
     public float updateTargetInterval = 0.5f;
 
     public Transform PlayerTransform;
+    public bool isDarkStealth;
     private float _targetUpdateTimer;
 
     #region States
     public EnemyState_Idle idleState { get; protected set; }
     public EnemyState_Move moveState { get; protected set; }
     public EnemyState_Ground gourndState { get; protected set; }
+    public EnemyState_Dizzy dizzyState { get; protected set; }
     #endregion
 
     protected override void Awake()
@@ -41,6 +45,7 @@ public class Enemy : Entity
         stateMachine = new EnemyStateMachine();
         idleState = new EnemyState_Idle(this, stateMachine, "Idle");
         moveState = new EnemyState_Move(this, stateMachine, "Move");
+        dizzyState = new EnemyState_Dizzy(this, stateMachine, "Dizzy");
     }
 
     protected override void Start()
@@ -59,6 +64,7 @@ public class Enemy : Entity
     public virtual void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
     public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheckSpot.position, Vector2.right * facingDir, 50, PlayerLayerMask);
+    public virtual RaycastHit2D IsDecoyDetected() => Physics2D.Raycast(wallCheckSpot.position, Vector2.right * facingDir, 50, DecoyLayerMask);
     public override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
