@@ -22,4 +22,17 @@ public class PlayerAnimationTriggers : MonoBehaviour
             }
         }
     }
+
+    // 新增：技能动画事件
+    public void CastChainTrigger()
+    {
+        // 获取技能组件并触发动画事件
+        Skill_L_02 chainSkill = Skill_L_02.skill_L_02;
+        if (chainSkill != null)
+        {
+            chainSkill.OnCastAnimationEvent();
+        }      
+    }
+
+
 }

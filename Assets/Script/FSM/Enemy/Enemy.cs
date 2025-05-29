@@ -110,4 +110,13 @@ public class Enemy : Entity
         if (PlayerTransform == null) return Vector2.zero;
         return (PlayerTransform.position - transform.position).normalized;
     }
+
+    public void ApplyStun(float duration)
+    {
+        // 设置眩晕持续时间
+        stunDuration = duration;
+
+        // 切换到眩晕状态
+        stateMachine.ChangeState(dizzyState);
+    }
 }

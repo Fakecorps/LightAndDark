@@ -155,6 +155,7 @@ Transform:
   - {fileID: 6230748704124060023}
   - {fileID: 9134007934230766368}
   - {fileID: 1189049889081232896}
+  - {fileID: 6518738667366965146}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1500581792485842464
@@ -179,7 +180,9 @@ MonoBehaviour:
   attackCheckSpot: {fileID: 1189049889081232896}
   attackRadius: 0.68
   isOnHit: 0
+  KnockBackForce: {x: 0, y: 0}
   AxisInput: {x: 0, y: 0}
+  sr: {fileID: 0}
   isBusy: 0
   moveSpeed: 7.5
   jumpForce: 16
@@ -259,6 +262,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitMat: {fileID: 2100000, guid: 7d9b4c50c1999574aa3ded2d8903288b, type: 2}
+--- !u!1 &5228625423868377303
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6518738667366965146}
+  m_Layer: 6
+  m_Name: ChainPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6518738667366965146
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5228625423868377303}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.07, y: -0.04, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9102284330502334280}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6101020150574826082
 GameObject:
   m_ObjectHideFlags: 0

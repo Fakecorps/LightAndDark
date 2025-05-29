@@ -20,13 +20,22 @@ public class EnemyState_Dizzy : EnemyState
     public override void Enter()
     {
         base.Enter();
-        DizzyDuration = Skill_D_03.Instance.DizzyDuration;
-        DizzyTimer = DizzyDuration;
+        // 重置眩晕计时器
+        DizzyTimer = enemyBase.stunDuration;
+
+        // 停止敌人移动
+        enemyBase.SetVelocity(0, 0);
+
+        // 显示眩晕效果（如果有）
+        // enemyBase.ShowStunEffect(true);
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        // 隐藏眩晕效果
+        // enemyBase.ShowStunEffect(false);
     }
 
     public override void Update()
