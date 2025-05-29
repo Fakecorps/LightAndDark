@@ -93,8 +93,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -475079549
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 267692489, guid: adaea64a89454804cb6f6f16cca4342b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -265,7 +265,6 @@ MonoBehaviour:
   enableChase: 1
   updateTargetInterval: 0.5
   PlayerTransform: {fileID: 0}
-  DecoyTransform: {fileID: 0}
   isDarkStealth: 0
 --- !u!114 &6716198967517890197
 MonoBehaviour:
