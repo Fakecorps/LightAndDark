@@ -25,7 +25,7 @@ public class Skill_D_03 : Skill
             Instance = this;
         }
     }
-    private void Start()
+    public void Start()
     {
         player = Player.ActivePlayer;
         GetOriColor();

@@ -16,6 +16,7 @@ public class Player : Entity
     public PlayerState_Jump jumpState { get; private set; }
     public PlayerState_Air airState { get; private set; }
     public PlayerState_PrimaryAttack primaryAttack { get; private set; }
+    public PlayerState_Parry parryState { get; private set; }
     #endregion
     #region Input
     public PlayerInput inputControl { get; private set; }
@@ -31,6 +32,10 @@ public class Player : Entity
     public float jumpForce;
     [Header("Attack Info")]
     public int Normal_Attack_Damage;
+    [Header("Parry Info")]
+    public float parryDuration;
+    public bool isParrying;
+    public bool parrySuccess;
 
     #endregion
     public static Player ActivePlayer { get; private set; }
@@ -56,6 +61,7 @@ public class Player : Entity
         jumpState = new PlayerState_Jump(this, StateMachine, "Jump");
         airState = new PlayerState_Air(this, StateMachine, "Jump");
         primaryAttack = new PlayerState_PrimaryAttack(this, StateMachine, "Attack");
+        parryState = new PlayerState_Parry(this, StateMachine, "Parry");
         inputControl = new PlayerInput();
         sr = GetComponentInChildren<SpriteRenderer>();
     }
@@ -100,6 +106,19 @@ public class Player : Entity
         isBusy = true;
         yield return new WaitForSeconds(_seconds);
         isBusy = false;
+    }
+
+   public void ActivateParrySkill()
+    {
+        if (PlayerManager.Instance.isPlayerLight)
+        { 
+            parrySuccess = true;
+        }
+        else
+        {
+            parrySuccess = true;
+            Skill_D_04.Instance.UseSkill();
+        }
     }
 }
 

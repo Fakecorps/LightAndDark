@@ -21,5 +21,9 @@ public class PlayerState_Grounded : PlayerState
     public override void Update()
     {
         base.Update();
+        if (player.inputControl.Player.Skill04.triggered)
+        {
+            stateMachine.ChangeState(player.parryState);
+        }
     }
 }

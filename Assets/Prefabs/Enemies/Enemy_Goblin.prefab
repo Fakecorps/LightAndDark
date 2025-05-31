@@ -94,7 +94,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -475079549
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 267692489, guid: adaea64a89454804cb6f6f16cca4342b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -255,7 +255,7 @@ MonoBehaviour:
   idleTime: 3
   attackCoolDown: 0.5
   lastTimeAttacked: 0
-  attackDistance: 0.8
+  attackDistance: 1.5
   chaseTime: 1
   damage: 5
   stunDuration: 1
@@ -396,8 +396,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 339485587
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}

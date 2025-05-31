@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goblin_Animation_Trigger : MonoBehaviour
+public class Enemy_Animation_Trigger : MonoBehaviour
 {
     private Enemy_Goblin enemy => GetComponentInParent<Enemy_Goblin>();
 
@@ -18,7 +18,17 @@ public class Goblin_Animation_Trigger : MonoBehaviour
         {
             if (hit.GetComponent<Player>() != null)
             {
-                hit.GetComponent<Player>().TakeDamage(enemy.damage);
+                var player = hit.GetComponent<Player>();
+
+                if (player.isParrying && enemy.getFacingDir() != player.getFacingDir())
+                {
+                    Debug.Log("is Parryed");
+                    player.ActivateParrySkill();
+                }
+                else
+                {
+                    player.TakeDamage(enemy.damage);
+                }
             }
             if(hit.GetComponent<Decoy>() != null)
             {
