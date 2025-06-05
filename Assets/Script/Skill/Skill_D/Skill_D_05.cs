@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Skill_D_05 : Skill
 {
+    public GameObject UltFieldPrefab;
+
     public override bool CanUseSkill()
     {
         return base.CanUseSkill();
@@ -12,11 +14,16 @@ public class Skill_D_05 : Skill
     public override void UseSkill()
     {
         base.UseSkill();
-        Debug.Log("Skill_D_05");
+        CreateUltField();
     }
 
     protected override void Update()
     {
         base.Update();
+    }
+
+    void CreateUltField()
+    { 
+        GameObject UltField = Instantiate(UltFieldPrefab, player.transform.position, player.transform.rotation);
     }
 }

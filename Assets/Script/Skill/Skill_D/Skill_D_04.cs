@@ -38,8 +38,7 @@ public class Skill_D_04 : Skill
 
     protected override void Update()
     {
-        base.Update();
-        
+        base.Update();   
     }
 
     private IEnumerator ParrySkill()
