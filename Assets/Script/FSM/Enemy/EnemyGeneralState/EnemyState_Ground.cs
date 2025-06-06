@@ -30,6 +30,11 @@ public class EnemyState_Ground : EnemyState_Unprotected
                 var goblin = enemy as Enemy_Goblin;
                 stateMachine.ChangeState(goblin.attackState);
             }
+            if(enemy is Enemy_Archer)
+            {
+                var archer = enemy as Enemy_Archer;
+                stateMachine.ChangeState(archer.attackState);
+            }
             
         }
 

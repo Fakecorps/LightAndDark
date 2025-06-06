@@ -1,10 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy_Animation_Trigger : MonoBehaviour
 {
-    private Enemy_Goblin enemy => GetComponentInParent<Enemy_Goblin>();
+    private Enemy enemy;
+    private void Start()
+    {
+        enemy = GetComponentInParent<Enemy_Goblin>();
+        if (enemy == null )
+            enemy = GetComponentInParent<Enemy_Archer>();
+        
+    }
 
     private void AnimationTrigger()
     {

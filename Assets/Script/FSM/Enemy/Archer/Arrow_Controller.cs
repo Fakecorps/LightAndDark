@@ -35,6 +35,7 @@ public class Arrow_Controller : MonoBehaviour
 
     private void StuckInto(Collider2D collision)
     {
+        GetComponent<CapsuleCollider2D>().enabled = false;
         canMove = false;
         rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
