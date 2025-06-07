@@ -119,4 +119,17 @@ public class Enemy : Entity
         // 切换到眩晕状态
         stateMachine.ChangeState(dizzyState);
     }
+
+    //被击退功能，若重复请告知--安
+    public void ApplyKnockback(Vector3 force)
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            // 确保不会过度影响垂直方向
+            force.y = Mathf.Clamp(force.y, 0, force.magnitude * 0.3f);
+
+            rb.AddForce(force, ForceMode.Impulse);
+        }
+    }
 }

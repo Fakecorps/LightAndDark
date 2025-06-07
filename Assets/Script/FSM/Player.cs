@@ -37,6 +37,9 @@ public class Player : Entity
     public bool isParrying;
     public bool parrySuccess;
 
+    // 添加施法状态变量
+    private bool isCastingSkill = false;
+
     #endregion
     public static Player ActivePlayer { get; private set; }
 
@@ -119,6 +122,25 @@ public class Player : Entity
             parrySuccess = true;
             Skill_D_04.Instance.UseSkill();
         }
+    }
+
+    // 添加设置施法状态的方法
+    public void SetCastingSkill(bool casting)
+    {
+        isCastingSkill = casting;
+
+        // 禁用移动和攻击（如果需要）
+        //canMove = !casting;
+        //canAttack = !casting;
+
+        // 更新动画参数（如果需要）
+        //anim.SetBool("isCasting", casting);
+    }
+
+    // 添加检查施法状态的方法
+    public bool IsCastingSkill()
+    {
+        return isCastingSkill;
     }
 }
 

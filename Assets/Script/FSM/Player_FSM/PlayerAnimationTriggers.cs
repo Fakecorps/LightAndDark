@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAnimationTriggers : MonoBehaviour
 {
     private Player player => GetComponentInParent<Player>();
+    private Skill_L_03 skill;
 
     private void AniamtionTrigger()
     {
@@ -31,8 +32,25 @@ public class PlayerAnimationTriggers : MonoBehaviour
         if (chainSkill != null)
         {
             chainSkill.OnCastAnimationEvent();
-        }      
+        }
+        else
+        {
+            Debug.LogWarning("未找到Skill_L_02组件");
+        }
     }
 
+    public void CreateSpikesEvent()
+    {
+        // 获取技能组件并触发地刺创建
+        Skill_L_03 spikeSkill = Skill_L_03.Instance;
+        if (spikeSkill != null)
+        {
+            spikeSkill.CreateSpikes();
+        }
+        else
+        {
+            Debug.LogWarning("未找到Skill_L_03组件");
+        }
+    }
 
 }
