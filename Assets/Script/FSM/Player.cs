@@ -32,12 +32,20 @@ public class Player : Entity
     public float jumpForce;
     [Header("Attack Info")]
     public int Normal_Attack_Damage;
+    private bool isUltActive = false;
     [Header("Parry Info")]
     public float parryDuration;
     public bool isParrying;
     public bool parrySuccess;
-
-    // Ìí¼ÓÊ©·¨×´Ì¬±äÁ¿
+    [Header("Ultimate Attack Settings")]
+    public float phantomAttackCD = 0.3f; // æçŸ­çš„CDæ—¶é—´
+    private float lastPhantomAttackTime = -1f; // åˆå§‹åŒ–ä¸º-1ç¡®ä¿ç¬¬ä¸€æ¬¡å¯ä»¥æ”»å‡»
+    private bool CanPerformPhantomAttack()
+    {
+        // æ£€æŸ¥CDæ—¶é—´æ˜¯å¦å·²ç»è¿‡å»
+        return Time.time >= lastPhantomAttackTime + phantomAttackCD;
+    }
+    // æ·»åŠ æ–½æ³•çŠ¶æ€å˜é‡
     private bool isCastingSkill = false;
 
     #endregion
@@ -89,6 +97,10 @@ public class Player : Entity
         GroundCheck();
         StateMachine.currentState.Update();
         anim.SetFloat("yVelocity", rb.velocity.y);
+        if (inputControl.Player.Attack.triggered && isUltActive && CanPerformPhantomAttack())
+        {
+            TriggerPhantomAttack();
+        }
     }
 
     void GatherInput()
@@ -124,23 +136,40 @@ public class Player : Entity
         }
     }
 
-    // Ìí¼ÓÉèÖÃÊ©·¨×´Ì¬µÄ·½·¨
+    // æ·»åŠ è®¾ç½®æ–½æ³•çŠ¶æ€çš„æ–¹æ³•
     public void SetCastingSkill(bool casting)
     {
         isCastingSkill = casting;
 
-        // ½ûÓÃÒÆ¶¯ºÍ¹¥»÷£¨Èç¹ûĞèÒª£©
+        // ç¦ç”¨ç§»åŠ¨å’Œæ”»å‡»ï¼ˆå¦‚æœéœ€è¦ï¼‰
         //canMove = !casting;
         //canAttack = !casting;
 
-        // ¸üĞÂ¶¯»­²ÎÊı£¨Èç¹ûĞèÒª£©
+        // æ›´æ–°åŠ¨ç”»å‚æ•°ï¼ˆå¦‚æœéœ€è¦ï¼‰
         //anim.SetBool("isCasting", casting);
     }
 
-    // Ìí¼Ó¼ì²éÊ©·¨×´Ì¬µÄ·½·¨
+    // æ·»åŠ æ£€æŸ¥æ–½æ³•çŠ¶æ€çš„æ–¹æ³•
     public bool IsCastingSkill()
     {
         return isCastingSkill;
+    }
+    private void TriggerPhantomAttack()
+    {
+        // è·å–å½“å‰æ¿€æ´»çš„UltField
+        UltField activeField = FindObjectOfType<UltField>();
+        if (activeField != null)
+        {
+            activeField.TriggerPhantomAttack();
+            // æ›´æ–°æœ€åæ”»å‡»æ—¶é—´
+            lastPhantomAttackTime = Time.time;
+        }
+    }
+
+    // è®¾ç½®æŠ€èƒ½æ¿€æ´»çŠ¶æ€
+    public void SetUltActiveState(bool state)
+    {
+        isUltActive = state;
     }
 }
 

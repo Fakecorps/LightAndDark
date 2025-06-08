@@ -33,6 +33,7 @@ public class Entity : MonoBehaviour
     [Header("OnHit info")]
     public bool isOnHit;
     public Vector2 KnockBackForce;
+
     protected virtual void Awake()
     {
 
@@ -49,7 +50,6 @@ public class Entity : MonoBehaviour
             if (HPSystem == null) // 如果预制体未挂载则自动添加
                 HPSystem = gameObject.AddComponent<HealthSystem>();
         }
-
     }
     protected virtual void Update()
     { 

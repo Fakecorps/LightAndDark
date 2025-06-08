@@ -31,12 +31,34 @@ public class Enemy : Entity
     public Transform PlayerTransform;
     public bool isDarkStealth;
     private float _targetUpdateTimer;
+    [Header("Controlled info")]
+    private bool isControlled = false;
+
+    public virtual void SetControlledState(bool state)
+    {
+        isControlled = state;
+
+        if (isControlled)
+        {
+            // 受控时停止移动
+            ZeroVelocity();
+            stateMachine.ChangeState(controlState);
+            anim.speed = 0.3f; // 慢动作效果
+
+        }
+        else
+        {
+            anim.speed = 1f; // 恢复正常
+            stateMachine.ChangeState(idleState);
+        }
+    }
 
     #region States
     public EnemyState_Idle idleState { get; protected set; }
     public EnemyState_Move moveState { get; protected set; }
     public EnemyState_Ground gourndState { get; protected set; }
     public EnemyState_Dizzy dizzyState { get; protected set; }
+    public EnemyState_Controlled controlState { get; protected set; }
     #endregion
 
     protected override void Awake()
@@ -46,6 +68,7 @@ public class Enemy : Entity
         idleState = new EnemyState_Idle(this, stateMachine, "Idle");
         moveState = new EnemyState_Move(this, stateMachine, "Move");
         dizzyState = new EnemyState_Dizzy(this, stateMachine, "Dizzy");
+        controlState = new EnemyState_Controlled(this, stateMachine, "Controlled");
     }
 
     protected override void Start()

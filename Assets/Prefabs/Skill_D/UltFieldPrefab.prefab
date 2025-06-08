@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c6a8e93bb180a4a897b95848283219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRadius: 0.1
-  expandSpeed: 0.2
+  maxRadius: 3.5
+  expandSpeed: 2
   duration: 5
   sortingLayer: Enemy
   sortingOrder: -1
@@ -53,3 +53,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   detectionInterval: 0.1
+  showColliderOutline: 1
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineResolution: 50
+  spriteBaseRadius: 0.5
+  controlledEnemies: []
+  phantomPrefab: {fileID: 1182861224834197001, guid: 2691bec392102104ea165f3c5cf30f33, type: 3}
+  phantomDuration: 0.5
+  phantomDamage: 10
