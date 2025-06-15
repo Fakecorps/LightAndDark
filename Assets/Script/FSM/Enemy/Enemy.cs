@@ -23,6 +23,10 @@ public class Enemy : Entity
     public float stunDuration;
     public Vector2 stunDirection;
     public bool canBeStunned;
+    // 添加眩晕状态管理
+    private bool isStunned;
+    private float stunTimer;
+    private Coroutine stunRoutine;
     [SerializeField] protected GameObject counterImage;
     [Header("AI Settings")]
     public bool enableChase = true;
@@ -33,6 +37,10 @@ public class Enemy : Entity
     private float _targetUpdateTimer;
     [Header("Controlled info")]
     private bool isControlled = false;
+
+    private bool isKnockback;
+    private float knockbackEndTime;
+
 
     public virtual void SetControlledState(bool state)
     {
@@ -82,6 +90,11 @@ public class Enemy : Entity
         base.Update();
         stateMachine.currentState.Update();
         UpdateTargetTracking();
+        // 检查击退状态
+        if (isKnockback && Time.time >= knockbackEndTime)
+        {
+            StopKnockback();
+        }
 
     }
     public virtual void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
@@ -134,13 +147,43 @@ public class Enemy : Entity
         return (PlayerTransform.position - transform.position).normalized;
     }
 
+// 应用眩晕
     public void ApplyStun(float duration)
     {
-        // 设置眩晕持续时间
-        stunDuration = duration;
+        // 如果已有眩晕，先结束之前的
+        if (isStunned)
+        {
+            StopCoroutine(stunRoutine);
+        }
+
+        isStunned = true;
+        stunTimer = duration;
 
         // 切换到眩晕状态
         stateMachine.ChangeState(dizzyState);
+
+        // 开始眩晕计时
+        stunRoutine = StartCoroutine(StunRoutine());
+
+        Debug.Log($"{gameObject.name} 被眩晕 {duration} 秒");
+    }
+
+    // 结束眩晕
+    public void EndStun()
+    {
+        if (isStunned)
+        {
+            StopCoroutine(stunRoutine);
+            isStunned = false;
+            Debug.Log($"{gameObject.name} 眩晕提前结束");
+        }
+    }
+
+    private IEnumerator StunRoutine()
+    {
+        yield return new WaitForSeconds(stunTimer);
+        isStunned = false;
+        Debug.Log($"{gameObject.name} 眩晕结束");
     }
 
     //被击退功能，若重复请告知--安
@@ -153,6 +196,20 @@ public class Enemy : Entity
             force.y = Mathf.Clamp(force.y, 0, force.magnitude * 0.3f);
 
             rb.AddForce(force, ForceMode.Impulse);
+
+            // 记录击退状态
+            isKnockback = true;
+            knockbackEndTime = Time.time + 0.5f; // 短时间后结束击退
+        }
+    }
+
+    // 停止击退
+    public void StopKnockback()
+    {
+        isKnockback = false;
+        if (rb != null)
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
     }
 }

@@ -187,6 +187,10 @@ MonoBehaviour:
   moveSpeed: 7.5
   jumpForce: 16
   Normal_Attack_Damage: 10
+  parryDuration: 0
+  isParrying: 0
+  parrySuccess: 0
+  phantomAttackCD: 0.3
 --- !u!50 &7589288273578554236
 Rigidbody2D:
   serializedVersion: 4

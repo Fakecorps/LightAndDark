@@ -97,12 +97,30 @@ public class Entity : MonoBehaviour
     public virtual void ZeroVelocity() => rb.velocity = new Vector2(0, 0);
     public virtual void TakeDamage(int damage)
     {
-        if (HPSystem == null) return;
+        // 确保 HPSystem 不为空
+        if (HPSystem == null)
+        {
+            Debug.LogWarning($"{gameObject.name} 缺少 HealthSystem 组件，无法受到伤害");
+            return;
+        }
 
         isOnHit = true;
-        fX.StartCoroutine("FlashFX");
+
+        // 安全访问 fX 组件
+        if (fX != null)
+        {
+            fX.StartCoroutine("FlashFX");
+        }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name} 缺少 EntityFX 组件，无法播放受击特效");
+        }
+
         HPSystem.TakeDamage(damage); // 调用HealthSystem
+
+        // 应用击退效果
         KnockBack(KnockBackForce.x, KnockBackForce.y);
+
         Debug.Log($"{gameObject.name}受到{damage}点伤害");
     }
 
