@@ -26,6 +26,8 @@ public class Player : Entity
     public SpriteRenderer sr;
     #region Info
     public bool isBusy;
+    private bool canMove = true;
+    private bool canAttack = true;
     [Header("Move Info")]
     public float moveSpeed;
     [Header("Jump Info")]
@@ -45,7 +47,7 @@ public class Player : Entity
         // 检查CD时间是否已经过去
         return Time.time >= lastPhantomAttackTime + phantomAttackCD;
     }
-    // 添加施法状态变量
+
     private bool isCastingSkill = false;
 
     #endregion
@@ -97,7 +99,7 @@ public class Player : Entity
         GroundCheck();
         StateMachine.currentState.Update();
         anim.SetFloat("yVelocity", rb.velocity.y);
-        if (inputControl.Player.Attack.triggered && isUltActive && CanPerformPhantomAttack())
+        if (canAttack && inputControl.Player.Attack.triggered && isUltActive && CanPerformPhantomAttack())
         {
             TriggerPhantomAttack();
         }
@@ -105,10 +107,18 @@ public class Player : Entity
 
     void GatherInput()
     {
-        AxisInput = inputControl.Player.Move.ReadValue<Vector2>();
+        // 只有在可以移动时才收集移动输入
+        if (canMove)
+        {
+            AxisInput = inputControl.Player.Move.ReadValue<Vector2>();
+        }
+        else
+        {
+            AxisInput = Vector2.zero;
+        }
     }
 
-   
+
     public void AnimationTrigger()=>StateMachine.currentState.AnimationFinishTrigger();
 
     public bool IsAttacking()
@@ -142,8 +152,8 @@ public class Player : Entity
         isCastingSkill = casting;
 
         // 禁用移动和攻击（如果需要）
-        //canMove = !casting;
-        //canAttack = !casting;
+        canMove = !casting;
+        canAttack = !casting;
 
         // 更新动画参数（如果需要）
         //anim.SetBool("isCasting", casting);

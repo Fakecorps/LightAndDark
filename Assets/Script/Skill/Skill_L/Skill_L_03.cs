@@ -8,23 +8,24 @@ public class Skill_L_03 : Skill
 
     [Header("Skill Settings")]
     public int damage = 60;                   // 技能伤害
-    public float stunDuration = 1.5f;            // 眩晕时间
-    public float knockbackForce = 10f;           // 击退力量
-    public float skillRange = 5f;                // 技能作用范围
-    public float width = 2f;                     // 技能宽度
-    public float spikeRiseDuration = 0.5f;       // 地刺升起持续时间
-    public LayerMask enemyLayer;
+    public float stunDuration = 1.5f;         // 眩晕时间
+    public float knockbackForce = 10f;        // 击退力量
+    public float skillRange = 5f;             // 技能作用范围
+    public float width = 2f;                  // 技能宽度
+    public float spikeRiseDuration = 0.5f;    // 地刺升起持续时间
+    public LayerMask enemyLayer;              // 敌人层级
 
     [Header("Prefabs")]
-    public GameObject spikePrefab;               // 地刺预制体
+    public GameObject spikePrefab;            // 地刺预制体
 
     private List<GameObject> activeSpikes = new List<GameObject>(); // 生成的地刺
-    private bool isCasting;                      // 是否正在施法
+    private bool isCasting;                   // 是否正在施法
 
     protected override void Start()
     {
         Instance = this;
     }
+
     public override bool CanUseSkill()
     {
         return base.CanUseSkill();
@@ -32,7 +33,6 @@ public class Skill_L_03 : Skill
 
     public override void UseSkill()
     {
-
         base.UseSkill();
 
         if (player == null)
@@ -45,19 +45,21 @@ public class Skill_L_03 : Skill
         isCasting = true;
         player.SetCastingSkill(true);
 
-        // 添加调试信息
-        Debug.Log("Skill_L_03 activated");
+        Debug.Log("地崩圣刺技能激活");
     }
 
     // 动画事件调用：创建地刺
     public void CreateSpikes()
     {
         if (player == null || spikePrefab == null)
+        {
+            Debug.LogWarning("玩家或地刺预制体为空");
             return;
+        }
 
-        // 计算生成区域
-        Vector3 playerPos = player.transform.position;
-        Vector3 playerForward = player.transform.forward;
+        // 获取玩家朝向
+        int facingDir = player.getFacingDir();
+        Vector2 playerForward = Vector2.right * facingDir;
 
         // 在技能范围内生成地刺
         int rows = 3; // 纵向排数
@@ -71,8 +73,11 @@ public class Skill_L_03 : Skill
             {
                 // 横向偏移（从中心向两侧扩展）
                 float colOffset = (col - columns / 2) * (width / columns);
-                Vector3 spikePos = playerPos + playerForward * rowDistance;
-                spikePos += player.transform.right * colOffset;
+
+                // 计算地刺位置
+                Vector2 spikePos = (Vector2)player.transform.position +
+                                   playerForward * rowDistance +
+                                   Vector2.up * colOffset;
 
                 // 地刺初始位置在地面以下
                 spikePos.y -= 2f;
@@ -81,12 +86,12 @@ public class Skill_L_03 : Skill
                 GameObject spike = Instantiate(
                     spikePrefab,
                     spikePos,
-                    Quaternion.LookRotation(playerForward)
+                    Quaternion.identity
                 );
                 activeSpikes.Add(spike);
 
                 // 启动升起动画
-                StartCoroutine(RiseSpike(spike, spikePos + Vector3.up * 2f));
+                StartCoroutine(RiseSpike(spike, spikePos + Vector2.up * 2f));
             }
         }
 
@@ -98,11 +103,11 @@ public class Skill_L_03 : Skill
     }
 
     // 地刺升起动画
-    private IEnumerator RiseSpike(GameObject spike, Vector3 targetPosition)
+    private IEnumerator RiseSpike(GameObject spike, Vector2 targetPosition)
     {
         if (spike == null) yield break;
 
-        Vector3 startPosition = spike.transform.position;
+        Vector2 startPosition = spike.transform.position;
         float timer = 0f;
 
         while (timer < spikeRiseDuration)
@@ -112,7 +117,7 @@ public class Skill_L_03 : Skill
 
             if (spike != null)
             {
-                spike.transform.position = Vector3.Lerp(
+                spike.transform.position = Vector2.Lerp(
                     startPosition,
                     targetPosition,
                     t
@@ -126,31 +131,56 @@ public class Skill_L_03 : Skill
     // 检测并影响敌人
     private void DetectAndAffectEnemies()
     {
-        // 使用盒形区域检测敌人
-        Vector3 center = player.transform.position + player.transform.forward * (skillRange / 2f);
-        Vector3 halfExtents = new Vector3(width / 2f, 2f, skillRange / 2f);
+        if (player == null)
+        {
+            Debug.LogWarning("玩家引用为空");
+            return;
+        }
 
-        Collider[] hitColliders = Physics.OverlapBox(
+        // 获取玩家朝向
+        int facingDir = player.getFacingDir();
+
+        // 计算检测区域中心点
+        Vector2 center = (Vector2)player.transform.position +
+                         Vector2.right * facingDir * (skillRange / 2f);
+
+        // 2D 检测区域大小
+        Vector2 size = new Vector2(width, 4f);
+
+        Debug.Log($"检测区域: 中心={center}, 大小={size}, 层级={LayerMask.LayerToName(enemyLayer.value)}");
+
+        // 使用 Physics2D.OverlapBoxAll 进行 2D 检测
+        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(
             center,
-            halfExtents,
-            player.transform.rotation,
+            size,
+            0, // 角度
             enemyLayer
         );
 
-        foreach (Collider col in hitColliders)
+        Debug.Log($"检测到 {hitColliders.Length} 个敌人碰撞体");
+
+        foreach (Collider2D col in hitColliders)
         {
+            Debug.Log($"检测到碰撞体: {col.gameObject.name}");
+
             Enemy enemy = col.GetComponent<Enemy>();
             if (enemy != null)
             {
+                Debug.Log($"对敌人 {enemy.gameObject.name} 造成伤害");
+
                 // 造成伤害
                 enemy.TakeDamage(damage);
 
                 // 应用眩晕
                 enemy.ApplyStun(stunDuration);
 
-                // 应用击退（方向为玩家前方）
-                Vector3 knockbackDirection = player.transform.forward;
+                // 应用击退（水平方向）
+                Vector2 knockbackDirection = new Vector2(facingDir, 0);
                 enemy.ApplyKnockback(knockbackDirection * knockbackForce);
+            }
+            else
+            {
+                Debug.LogWarning($"碰撞体 {col.gameObject.name} 没有 Enemy 组件");
             }
         }
     }
@@ -170,6 +200,8 @@ public class Skill_L_03 : Skill
             }
         }
         activeSpikes.Clear();
+
+        Debug.Log("地刺清理完成");
 
         // 结束施法状态
         player.SetCastingSkill(false);
@@ -192,6 +224,8 @@ public class Skill_L_03 : Skill
 
             player.SetCastingSkill(false);
             isCasting = false;
+
+            Debug.Log("技能中断");
         }
     }
 
@@ -202,24 +236,17 @@ public class Skill_L_03 : Skill
 
         Gizmos.color = new Color(1f, 0.5f, 0f, 0.5f);
 
-        // 绘制技能作用区域
-        Vector3 center = player.transform.position + player.transform.forward * (skillRange / 2f);
-        Vector3 size = new Vector3(width, 4f, skillRange);
+        // 获取玩家朝向
+        int facingDir = player.getFacingDir();
 
-        // 应用玩家旋转
-        Matrix4x4 rotationMatrix = Matrix4x4.TRS(
-            center,
-            player.transform.rotation,
-            Vector3.one
-        );
+        // 计算检测区域中心点
+        Vector2 center = (Vector2)player.transform.position +
+                         Vector2.right * facingDir * (skillRange / 2f);
 
-        Gizmos.matrix = rotationMatrix;
-        Gizmos.DrawCube(Vector3.zero, size);
-        Gizmos.matrix = Matrix4x4.identity;
-    }
-    protected override void Update()
-    {
-        base.Update();
+        // 绘制 2D 检测区域
+        Vector3 size3D = new Vector3(width, 4f, 0.1f);
+        Vector3 center3D = new Vector3(center.x, center.y, player.transform.position.z);
 
+        Gizmos.DrawCube(center3D, size3D);
     }
 }
