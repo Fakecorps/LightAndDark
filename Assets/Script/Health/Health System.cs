@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro; // 添加 TMPro 命名空间
+using UnityEngine.Events;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -17,6 +18,11 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] private Color fullHealthColor = Color.green; // 满血颜色
     [SerializeField] private Color lowHealthColor = Color.red;    // 低血颜色
     [SerializeField] private int lowHealthThreshold = 30;         // 低血阈值
+
+    [Header("死亡事件")]
+    public UnityEvent onDeath; // 死亡事件
+    [Header("身份标识")]
+    [SerializeField] public bool isPlayer = false;
 
     void Start()
     {
@@ -73,8 +79,18 @@ public class HealthSystem : MonoBehaviour
     {
         if (currentHealth <= 0)
         {
-            Debug.Log("角色已死亡！");
-            // 这里可以添加死亡处理逻辑
+            onDeath.Invoke();
+
+            // 如果是玩家，在Player脚本中处理死亡逻辑
+            if (isPlayer)
+            {
+                // 玩家死亡逻辑在Player脚本中处理
+            }
+            else
+            {
+                // 敌人死亡逻辑 - 禁用对象
+                gameObject.SetActive(false);
+            }
         }
     }
 
@@ -88,4 +104,5 @@ public class HealthSystem : MonoBehaviour
     // 属性访问器（可选）
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
+    public bool IsPlayer => isPlayer;
 }

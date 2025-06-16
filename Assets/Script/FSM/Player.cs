@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 
 
@@ -42,6 +43,8 @@ public class Player : Entity
     [Header("Ultimate Attack Settings")]
     public float phantomAttackCD = 0.3f; // 极短的CD时间
     private float lastPhantomAttackTime = -1f; // 初始化为-1确保第一次可以攻击
+    [Header("死亡设置")]
+    [SerializeField] private float deathDelay = 2f;
     private bool CanPerformPhantomAttack()
     {
         // 检查CD时间是否已经过去
@@ -82,8 +85,12 @@ public class Player : Entity
     protected override void Start()
     {
         base.Start();
-        StateMachine.Initialize(idleState);
         HPSystem = HealthSystemManager.PlayerHealth;
+        if (HPSystem != null)
+        {
+            HPSystem.onDeath.AddListener(HandleDeath);
+        }
+        StateMachine.Initialize(idleState);
         inputControl.Player.Skill01.started += ctx => SkillManager.instance.UseSkill(0);
         inputControl.Player.Skill02.started += ctx => SkillManager.instance.UseSkill(1);
         inputControl.Player.Skill03.started += ctx => SkillManager.instance.UseSkill(2);
@@ -181,5 +188,36 @@ public class Player : Entity
     {
         isUltActive = state;
     }
+    private void OnDestroy()
+    {
+        // 取消订阅死亡事件
+        if (HPSystem != null)
+        {
+            HPSystem.onDeath.RemoveListener(HandleDeath);
+        }
+    }
+
+    // 处理玩家死亡
+    private void HandleDeath()
+    {
+        Debug.Log("玩家死亡，重置关卡...");
+
+        // 禁用玩家控制
+        canMove = false;
+        canAttack = false;
+        inputControl.Disable();
+
+        // 延迟重置关卡
+        StartCoroutine(ResetLevelAfterDelay());
+    }
+
+    private IEnumerator ResetLevelAfterDelay()
+    {
+        yield return new WaitForSeconds(deathDelay);
+
+        // 重置当前关卡
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
+
 

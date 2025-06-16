@@ -13,6 +13,7 @@ public class HealthSystemManager : MonoBehaviour
         if (PlayerHealth == null && sharedHealthSystem != null)
         {
             PlayerHealth = sharedHealthSystem;
+            PlayerHealth.isPlayer = true;
             DontDestroyOnLoad(gameObject);
         }
         else
