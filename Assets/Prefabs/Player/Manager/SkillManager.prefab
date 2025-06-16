@@ -1,0 +1,260 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5064557762889025316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6723790622689540290}
+  - component: {fileID: 8658567162978868083}
+  - component: {fileID: 992899702982836566}
+  - component: {fileID: 6791343435283584616}
+  - component: {fileID: 8744633442853874437}
+  - component: {fileID: 2829536111052258191}
+  - component: {fileID: 6520566222946105959}
+  - component: {fileID: 3358466640408910146}
+  - component: {fileID: 2628854902121466032}
+  - component: {fileID: 2146547624748368835}
+  - component: {fileID: 7069092627336645041}
+  - component: {fileID: 3868900555225976352}
+  m_Layer: 0
+  m_Name: SkillManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6723790622689540290
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064557762889025316}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.8972106, y: 8.949456, z: -1.1065265}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8658567162978868083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064557762889025316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 763754a5e9417f142991268cda66e340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill_L_01: {fileID: 992899702982836566}
+  skill_L_02: {fileID: 6791343435283584616}
+  skill_L_03: {fileID: 8744633442853874437}
+  skill_L_04: {fileID: 2829536111052258191}
+  skill_L_05: {fileID: 6520566222946105959}
+  skill_D_01: {fileID: 3358466640408910146}
+  skill_D_02: {fileID: 2628854902121466032}
+  skill_D_03: {fileID: 2146547624748368835}
+  skill_D_04: {fileID: 7069092627336645041}
+  skill_D_05: {fileID: 3868900555225976352}
+  UnlockSkill_L_01: 1
+  UnlockSkill_L_02: 1
+  UnlockSkill_L_03: 1
+  UnlockSkill_L_04: 1
+  UnlockSkill_L_05: 1
+  UnlockSkill_D_01: 1
+  UnlockSkill_D_02: 1
+  UnlockSkill_D_03: 1
+  UnlockSkill_D_04: 1
+  UnlockSkill_D_05: 1
+--- !u!114 &992899702982836566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064557762889025316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f2745cb2eaeb743b697b21cad43108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+--- !u!114 &6791343435283584616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064557762889025316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61ae86ba889cd6946bdfc0f68698cfaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  castPoint: {fileID: 0}
+  chainPrefab: {fileID: 5407266233499799523, guid: babfc532a9601f846897f2ebdbc0c197, type: 3}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  chainRange: 8
+  pullForce: 35
+  stunDuration: 1
+  chainWidth: 0.3
+--- !u!114 &8744633442853874437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064557762889025316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130a30443cecbf24192ba9b2667b00b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  damage: 60
+  stunDuration: 1.5
+  knockbackForce: 10
+  skillRange: 5
+  width: 2
+  spikeRiseDuration: 0.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  spikePrefab: {fileID: 3919453769342840960, guid: 7fb5125b2c142ff44a8dcdb72b241dc4, type: 3}
+--- !u!114 &2829536111052258191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064557762889025316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e8933e9ab811654ca0ce15f36983004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  wavePrefab: {fileID: 0}
+  spawnPoint: {fileID: 0}
+  waveSpeed: 3
+  maxDistance: 15
+  waveScaleX: 5
+  waveScaleY: 7
+  animationDuration: 1.2
+  waveSpawnDelay: 0.8
+  slashEffect: {fileID: 0}
+--- !u!114 &6520566222946105959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064557762889025316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3eadb023a6ebd4098459597f2ce1d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  holyAreaPrefab: {fileID: 0}
+  areaRadius: 5
+  castTime: 2
+--- !u!114 &3358466640408910146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064557762889025316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 618845e6686f68543bd00eb7dc0fb105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  DashDistance: 5
+  chaseDisableTime: 0
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!114 &2628854902121466032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064557762889025316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c1a6be548d33c5478a7461ec59d3b55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  daggerPrefab: {fileID: 9161249743570805784, guid: 3e6296d1643c33548aafc2916d2473d9, type: 3}
+  daggerSpeed: 15
+--- !u!114 &2146547624748368835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064557762889025316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9736846b75cf5ba459dfa0b0910d2053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  decoyPrefab: {fileID: 7505473638089977611, guid: 709d822ef98029148891eed4c3798edd, type: 3}
+  stealthDuration: 5
+  decoyDuration: 10
+  explosionRadius: 5
+  explosionDamage: 30
+  DizzyDuration: 5
+  isStealthed: 0
+  DecoyTransform: {fileID: 0}
+--- !u!114 &7069092627336645041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064557762889025316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da4bf16e99e45a34d9def0ce00cbbf6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  shadowPrefab: {fileID: 1514047546387965233, guid: 547fa1e6ec7b9854ca86b4c6c3ba72d0, type: 3}
+  shadowFadeSpeed: 2
+  DashDistance: 5
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  Damage: 10
+--- !u!114 &3868900555225976352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064557762889025316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a446c4bf8849d640835e49275cfbee1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  UltFieldPrefab: {fileID: 699717375513855861, guid: 25692e58c36d18747a46566a5085735f, type: 3}
