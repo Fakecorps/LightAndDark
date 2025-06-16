@@ -2,47 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro; // æ·»åŠ  TMPro å‘½åç©ºé—´
 
 public class HealthSystem : MonoBehaviour
 {
-    [Header("ÉúÃüÖµÉèÖÃ")]
-    [SerializeField] private int maxHealth = 100; // ×î´óÉúÃüÖµ
-    [SerializeField] private int currentHealth;   // µ±Ç°ÉúÃüÖµ
+    [Header("è¡€é‡è®¾ç½®")]
+    [SerializeField] private int maxHealth = 100; // æœ€å¤§è¡€é‡å€¼
+    [SerializeField] private int currentHealth;   // å½“å‰è¡€é‡å€¼
 
-    [Header("UI×é¼ş")]
-    [SerializeField] private Slider healthSlider; // ÑªÌõSlider×é¼ş
-    [SerializeField] private Text healthText;     // ÑªÁ¿ÎÄ×Ö×é¼ş
+    [Header("UIå…ƒç´ ")]
+    [SerializeField] private Image healthBar;     // è¡€æ¡Imageç»„ä»¶
+    [SerializeField] private TMP_Text healthText; // ä½¿ç”¨TMPæ–‡æœ¬ç»„ä»¶
+    [SerializeField] private Image healthBarBackground; // è¡€æ¡èƒŒæ™¯ï¼ˆå¯é€‰ï¼‰
+    [SerializeField] private Color fullHealthColor = Color.green; // æ»¡è¡€é¢œè‰²
+    [SerializeField] private Color lowHealthColor = Color.red;    // ä½è¡€é¢œè‰²
+    [SerializeField] private int lowHealthThreshold = 30;         // ä½è¡€é˜ˆå€¼
+
     void Start()
     {
         InitializeHealth();
     }
 
-    // ³õÊ¼»¯ÉúÃüÖµ
+    // åˆå§‹åŒ–è¡€é‡
     void InitializeHealth()
     {
         currentHealth = maxHealth;
         UpdateHealthUI();
+    }
 
-        // ÅäÖÃSlider×é¼ş
-        if (healthSlider != null)
+    // æ›´æ–°è¡€é‡UI
+    void UpdateHealthUI()
+    {
+        // æ›´æ–°è¡€æ¡é•¿åº¦ (0.0 - 1.0)
+        if (healthBar != null)
         {
-            healthSlider.maxValue = maxHealth;
-            healthSlider.minValue = 0;
-            healthSlider.value = currentHealth;
+            float fillAmount = (float)currentHealth / maxHealth;
+            healthBar.fillAmount = fillAmount;
+
+            // æ ¹æ®è¡€é‡æ”¹å˜è¡€æ¡é¢œè‰²
+            healthBar.color = Color.Lerp(lowHealthColor, fullHealthColor, fillAmount / (lowHealthThreshold / (float)maxHealth));
+        }
+
+        // æ›´æ–°è¡€é‡æ–‡æœ¬
+        if (healthText != null)
+        {
+            healthText.text = $"{currentHealth}/{maxHealth}";
+
+            // å½“è¡€é‡ä½äºé˜ˆå€¼æ—¶æ”¹å˜æ–‡æœ¬é¢œè‰²
+            healthText.color = currentHealth <= lowHealthThreshold ? lowHealthColor : Color.white;
         }
     }
 
-    // ¸üĞÂÉúÃüÖµUI
-    void UpdateHealthUI()
-    {
-        if (healthSlider != null)
-            healthSlider.value = currentHealth;
-
-        if (healthText != null)
-            healthText.text = $"{currentHealth}/{maxHealth}";
-    }
-
-    // ÊÜµ½ÉËº¦
+    // å—åˆ°ä¼¤å®³
     public void TakeDamage(int damageAmount)
     {
         currentHealth = Mathf.Max(0, currentHealth - damageAmount);
@@ -50,28 +61,31 @@ public class HealthSystem : MonoBehaviour
         CheckDeath();
     }
 
-    // ÖÎÁÆ»Ö¸´
+    // æ¢å¤ç”Ÿå‘½
     public void Heal(int healAmount)
     {
         currentHealth = Mathf.Min(maxHealth, currentHealth + healAmount);
         UpdateHealthUI();
     }
 
-    // ËÀÍö¼ì²é
+    // æ£€æŸ¥æ­»äº¡
     void CheckDeath()
     {
         if (currentHealth <= 0)
         {
-            // ÕâÀï¿ÉÒÔÌí¼ÓËÀÍöÂß¼­
-            Debug.Log("½ÇÉ«ËÀÍö£¡");
+            Debug.Log("è§’è‰²å·²æ­»äº¡ï¼");
+            // è¿™é‡Œå¯ä»¥æ·»åŠ æ­»äº¡å¤„ç†é€»è¾‘
         }
     }
 
-    // ÖØÖÃÉúÃüÖµ£¨¿ÉÓÃÓÚÖØĞÂ¿ªÊ¼ÓÎÏ·Ê±£©
+    // é‡ç½®è¡€é‡
     public void ResetHealth()
     {
         currentHealth = maxHealth;
         UpdateHealthUI();
     }
 
+    // å±æ€§è®¿é—®å™¨ï¼ˆå¯é€‰ï¼‰
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
 }
