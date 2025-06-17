@@ -63210,6 +63210,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2628854902121466032, guid: 28a0a586ff3530745884c8a02e88186f, type: 3}
+      propertyPath: cooldown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2628854902121466032, guid: 28a0a586ff3530745884c8a02e88186f, type: 3}
+      propertyPath: daggerSpeed
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 5064557762889025316, guid: 28a0a586ff3530745884c8a02e88186f, type: 3}
       propertyPath: m_Name
       value: SkillManager
