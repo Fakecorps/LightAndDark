@@ -27,7 +27,7 @@ public class Player : Entity
     public SpriteRenderer sr;
     #region Info
     public bool isBusy;
-    private bool canMove = true;
+    public bool canMove = true;
     private bool canAttack = true;
     [Header("Move Info")]
     public float moveSpeed;
@@ -148,6 +148,7 @@ public class Player : Entity
         }
         else
         {
+
             parrySuccess = true;
             Skill_D_04.Instance.UseSkill();
         }

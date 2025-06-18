@@ -81,15 +81,13 @@ public class HealthSystem : MonoBehaviour
         {
             onDeath.Invoke();
 
-            // 如果是玩家，在Player脚本中处理死亡逻辑
-            if (isPlayer)
+            if (!isPlayer)
             {
-                // 玩家死亡逻辑在Player脚本中处理
-            }
-            else
-            {
-                // 敌人死亡逻辑 - 禁用对象
-                gameObject.SetActive(false);
+                Enemy enemy = GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.Die();
+                }
             }
         }
     }

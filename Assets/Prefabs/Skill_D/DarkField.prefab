@@ -81,12 +81,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a0a068ca3c5d3e429d94a861511ada7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.5
-  damageInterval: 0.5
+  radius: 25
+  damageInterval: 0.8
   damagePerTick: 5
-  slowPercentage: 0.5
+  slowPercentage: 1
   fieldVisual: {fileID: 6574585602043339549}
-  fadeDuration: 0.5
+  fadeDuration: 1.5
   fieldColor: {r: 0, g: 0, b: 0, a: 0.3}
 --- !u!1 &8813852046591945588
 GameObject:

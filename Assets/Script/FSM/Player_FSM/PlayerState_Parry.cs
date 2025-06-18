@@ -14,6 +14,7 @@ public class PlayerState_Parry : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.canMove = false;
         player.ZeroVelocity();
         player.isParrying = true;
         parryDuration = player.parryDuration;
@@ -24,11 +25,13 @@ public class PlayerState_Parry : PlayerState
     public override void Exit()
     {
         base.Exit();
+        player.canMove = true;
     }
 
     public override void Update()
     {
         base.Update();
+        player.ZeroVelocity();
         parryTimer -= Time.deltaTime;
         if (parryTimer <= 0)
         { 

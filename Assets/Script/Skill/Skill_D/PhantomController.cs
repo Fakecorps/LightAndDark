@@ -7,7 +7,7 @@ public class PhantomController : MonoBehaviour
     private Enemy target;
     public int damage = 5;
     public float duration;
-    public float baseScale;
+    public float baseScale = 0.01f;
 
     public void Initialize(Enemy target, int damage, float duration)
     {
@@ -17,13 +17,13 @@ public class PhantomController : MonoBehaviour
 
         Vector3 enemyPos = target.transform.position;
         transform.position = new Vector3(
-            transform.position.x,
+            transform.position.x + 10,
             enemyPos.y,  // 关键修改：使用敌人的Y轴高度
             transform.position.z
         );
 
         // 设置缩放（增大基础值并添加方向控制）
-        float direction = Mathf.Sign(enemyPos.x - transform.position.x);
+        float direction = Mathf.Sign(enemyPos.x - transform.position.x );
         transform.localScale = new Vector3(
             direction * baseScale,  // 方向×基础缩放
             baseScale,               // 统一Y轴缩放

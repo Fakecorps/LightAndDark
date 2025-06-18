@@ -8,7 +8,7 @@ public class PlayerState_PrimaryAttack : PlayerState
     private int comboCounter;
     private float lastTimeAttacked;
     private float comboWindow = 1;
-    private float attackSpeed = 0.7f;
+    private float attackSpeed = 10f;
     public PlayerState_PrimaryAttack(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
 

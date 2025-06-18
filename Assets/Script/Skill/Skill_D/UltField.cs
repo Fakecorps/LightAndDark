@@ -86,6 +86,8 @@ public class UltField : MonoBehaviour
 
     void Update()
     {
+        controlledEnemies.RemoveAll(enemy =>
+          enemy == null || !enemy.IsAlive());
         // 在扩张前初始化轮廓
         if (showColliderOutline && fieldOutline == null)
         {
@@ -206,18 +208,30 @@ public class UltField : MonoBehaviour
 
     private void OnEnterField(Enemy enemy)
     {
-        controlledEnemies.Add(enemy);
-        enemy.SetControlledState(true);
+        if (!enemy.IsAlive()) return;
+        if (!controlledEnemies.Contains(enemy))
+        {
+            controlledEnemies.Add(enemy);
+            enemy.SetControlledState(true);
+        }
     }
 
     private void OnExitField(Enemy enemy)
     {
-        controlledEnemies.Remove(enemy);
-        enemy.SetControlledState(false);
+        if (!enemy.IsAlive()) return;
+
+        if (controlledEnemies.Contains(enemy))
+        {
+            controlledEnemies.Remove(enemy);
+            enemy.SetControlledState(false);
+        }
     }
 
     public void TriggerPhantomAttack()
     {
+        controlledEnemies.RemoveAll(enemy =>
+       enemy == null || !enemy.IsAlive());
+
         if (!isActive || controlledEnemies.Count == 0) return;
 
         // 随机选择一个敌人
@@ -260,7 +274,10 @@ public class UltField : MonoBehaviour
         // 力场结束时释放所有敌人
         foreach (var enemy in controlledEnemies)
         {
-            if (enemy != null) enemy.SetControlledState(false);
+            if (enemy != null && enemy.IsAlive())
+            {
+                enemy.SetControlledState(false);
+            }
         }
     }
     void OnDrawGizmos()

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Enemy : Entity
 {
@@ -41,6 +43,10 @@ public class Enemy : Entity
     private bool isKnockback;
     private float knockbackEndTime;
 
+    [Header("Death info")]
+    public UnityEvent OnDeath;
+    public bool isDead;
+
 
     public virtual void SetControlledState(bool state)
     {
@@ -67,6 +73,7 @@ public class Enemy : Entity
     public EnemyState_Ground gourndState { get; protected set; }
     public EnemyState_Dizzy dizzyState { get; protected set; }
     public EnemyState_Controlled controlState { get; protected set; }
+    public EnemyState_Death deadState { get; protected set; }
     #endregion
 
     protected override void Awake()
@@ -77,6 +84,7 @@ public class Enemy : Entity
         moveState = new EnemyState_Move(this, stateMachine, "Move");
         dizzyState = new EnemyState_Dizzy(this, stateMachine, "Dizzy");
         controlState = new EnemyState_Controlled(this, stateMachine, "Controlled");
+        deadState = new EnemyState_Death(this, stateMachine, "Dead");
     }
 
     protected override void Start()
@@ -211,5 +219,57 @@ public class Enemy : Entity
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        if (isDead) return; // 如果已经死亡，不再处理伤害
+
+        base.TakeDamage(damage);
+
+        if (HPSystem.CurrentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        if (isDead) return; // 防止重复死亡
+
+        isDead = true;
+
+        // 禁用所有物理和碰撞
+        col.enabled = false;
+        rb.isKinematic = true;
+        rb.velocity = Vector2.zero;
+
+        // 停止所有协程
+        if (stunRoutine != null)
+            StopCoroutine(stunRoutine);
+
+        // 触发死亡事件
+        OnDeath?.Invoke();
+
+        // 切换到死亡状态
+        stateMachine.ChangeState(deadState);
+
+        // 播放死亡动画
+        anim.SetTrigger("Dead");
+
+        // 延迟销毁对象
+        StartCoroutine(DelayedDestroy(1.5f));
+    }
+
+    private IEnumerator DelayedDestroy(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
+    }
+
+    // 添加存活检查方法
+    public bool IsAlive()
+    {
+        return !isDead;
     }
 }

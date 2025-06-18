@@ -28,10 +28,12 @@ public class Skill_D_04 : Skill
     public override void UseSkill()
     {
         base.UseSkill();
+        player.rb.velocity = Vector2.zero;
         playerSprite = PlayerManager.Instance.player.sr;
         if (!player.parrySuccess)
         return;
         DashDirection = Vector2.right * player.getFacingDir();
+
         StartCoroutine(ParrySkill());
         player.parrySuccess = false;
     }

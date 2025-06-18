@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq; // 添加Linq命名空间
 
 public class DarkField : MonoBehaviour
 {
@@ -23,7 +24,6 @@ public class DarkField : MonoBehaviour
         fieldVisual.color = new Color(fieldColor.r, fieldColor.g, fieldColor.b, 0);
         StartCoroutine(ExpandField());
         StartCoroutine(DamageRoutine());
-        
     }
 
     private IEnumerator ExpandField()
@@ -31,15 +31,10 @@ public class DarkField : MonoBehaviour
         float duration = 0.2f;
         float timer = 0;
 
-        // 同时控制缩放和透明度
         while (timer < duration)
         {
             float progress = timer / duration;
-
-            // 缩放控制
             transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one * radius * 2, progress);
-
-            // 透明度控制
             fieldVisual.color = new Color(
                 fieldColor.r,
                 fieldColor.g,
@@ -51,7 +46,6 @@ public class DarkField : MonoBehaviour
             yield return null;
         }
 
-        // 最终淡出效果
         StartCoroutine(FadeOutField());
     }
 
@@ -59,27 +53,44 @@ public class DarkField : MonoBehaviour
     {
         while (true)
         {
-            foreach (Enemy enemy in affectedEnemies)
+            // 创建集合的副本进行遍历
+            List<Enemy> enemiesToDamage = new List<Enemy>();
+
+            // 清理无效引用并创建副本
+            affectedEnemies.RemoveWhere(enemy => enemy == null);
+            enemiesToDamage.AddRange(affectedEnemies);
+
+            foreach (Enemy enemy in enemiesToDamage)
             {
+                // 跳过已销毁或无效的敌人
+                if (enemy == null || !enemy.gameObject.activeSelf) continue;
+
                 enemy.enableChase = false;
-                if (enemy is Enemy_Goblin)
+
+                if (enemy is Enemy_Goblin goblin)
                 {
-                    var goblin = enemy as Enemy_Goblin;
-                    
-                    goblin.stateMachine.ChangeState(goblin.knockbackState);
+                    // 确保哥布林没有被眩晕或死亡
+                    if (!goblin.isDead)
+                    {
+                        goblin.stateMachine.ChangeState(goblin.knockbackState);
+                    }
                 }
+
                 enemy.TakeDamage(damagePerTick);
             }
             yield return new WaitForSeconds(damageInterval);
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            affectedEnemies.Add(enemy);
+            // 只添加存活的敌人
+            if (!enemy.isDead)
+            {
+                affectedEnemies.Add(enemy);
+            }
         }
     }
 
@@ -87,8 +98,14 @@ public class DarkField : MonoBehaviour
     {
         if (other.TryGetComponent<Enemy>(out Enemy enemy))
         {
+            // 安全移除敌人
             affectedEnemies.Remove(enemy);
-            enemy.enableChase = true;
+
+            // 只恢复存活的敌人
+            if (enemy != null && enemy.gameObject.activeSelf)
+            {
+                enemy.enableChase = true;
+            }
         }
     }
 
@@ -103,5 +120,8 @@ public class DarkField : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
+
+        // 技能结束时销毁自身
+        Destroy(gameObject);
     }
 }
