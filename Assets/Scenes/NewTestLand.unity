@@ -62898,8 +62898,16 @@ PrefabInstance:
       value: -0.53776896
       objectReference: {fileID: 0}
     - target: {fileID: 1558186730238417578, guid: f64b0e4c7fb1a444fa9aaa36b5870aa2, type: 3}
+      propertyPath: jumpForce
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 1558186730238417578, guid: f64b0e4c7fb1a444fa9aaa36b5870aa2, type: 3}
       propertyPath: Normal_Attack_Damage
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5813585941060368900, guid: f64b0e4c7fb1a444fa9aaa36b5870aa2, type: 3}
+      propertyPath: m_GravityScale
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 6933165132128888218, guid: f64b0e4c7fb1a444fa9aaa36b5870aa2, type: 3}
       propertyPath: m_Name
