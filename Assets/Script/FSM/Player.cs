@@ -45,6 +45,8 @@ public class Player : Entity
     private float lastPhantomAttackTime = -1f; // 初始化为-1确保第一次可以攻击
     [Header("死亡设置")]
     [SerializeField] private float deathDelay = 2f;
+    [Header("当前角色设置")]
+    public int AttackCount;
     private bool CanPerformPhantomAttack()
     {
         // 检查CD时间是否已经过去
@@ -110,6 +112,7 @@ public class Player : Entity
         {
             TriggerPhantomAttack();
         }
+        AttackCount = PlayerManager.Instance.isPlayerLight? 1 : 2;
     }
 
     void GatherInput()

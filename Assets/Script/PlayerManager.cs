@@ -41,4 +41,5 @@ public class PlayerManager : MonoBehaviour
         player = newPlayer;
         isPlayerLight = !isPlayerLight;
     }
+
 }
