@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
 
-public class GoblinState_Attack : EnemyState_Unprotected
+public class EnemyState_Attack : EnemyState_Unprotected
 {
     private Enemy_Goblin enemy;
     private int moveDir;
@@ -14,7 +14,7 @@ public class GoblinState_Attack : EnemyState_Unprotected
 
     private RaycastHit2D isTargetDetected;
 
-    public GoblinState_Attack(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName)
+    public EnemyState_Attack(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,Enemy_Goblin _enemy) : base(_enemy, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }

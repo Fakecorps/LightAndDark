@@ -20,13 +20,13 @@ public class EnemyState_Dizzy : EnemyState
     public override void Enter()
     {
         base.Enter();
-        // ÖØÖÃÑ£ÔÎ¼ÆÊ±Æ÷
-        DizzyTimer = enemyBase.stunDuration;
+        // é‡ç½®çœ©æ™•è®¡æ—¶å™¨
+        DizzyTimer = enemyBase.dizzyDuration;
 
-        // Í£Ö¹µĞÈËÒÆ¶¯
+        // åœæ­¢æ•Œäººç§»åŠ¨
         enemyBase.SetVelocity(0, 0);
 
-        // ÏÔÊ¾Ñ£ÔÎĞ§¹û£¨Èç¹ûÓĞ£©
+        // æ˜¾ç¤ºçœ©æ™•æ•ˆæœï¼ˆå¦‚æœæœ‰ï¼‰
         // enemyBase.ShowStunEffect(true);
     }
 
@@ -34,7 +34,7 @@ public class EnemyState_Dizzy : EnemyState
     {
         base.Exit();
 
-        // Òş²ØÑ£ÔÎĞ§¹û
+        // éšè—çœ©æ™•æ•ˆæœ
         // enemyBase.ShowStunEffect(false);
     }
 

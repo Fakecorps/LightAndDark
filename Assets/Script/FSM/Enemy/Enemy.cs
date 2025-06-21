@@ -25,11 +25,13 @@ public class Enemy : Entity
     public float stunDuration;
     public Vector2 stunDirection;
     public bool canBeStunned;
-    // 添加眩晕状态管理
+
     private bool isStunned;
     private float stunTimer;
     private Coroutine stunRoutine;
     [SerializeField] protected GameObject counterImage;
+    [Header("Dizzy info")]
+    public float dizzyDuration;
     [Header("AI Settings")]
     public bool enableChase = true;
     public float updateTargetInterval = 0.5f;
@@ -74,11 +76,12 @@ public class Enemy : Entity
     public EnemyState_Dizzy dizzyState { get; protected set; }
     public EnemyState_Controlled controlState { get; protected set; }
     public EnemyState_Death deadState { get; protected set; }
-    #endregion
 
+    #endregion
     protected override void Awake()
     {
         base.Awake();
+
         stateMachine = new EnemyStateMachine();
         idleState = new EnemyState_Idle(this, stateMachine, "Idle");
         moveState = new EnemyState_Move(this, stateMachine, "Move");

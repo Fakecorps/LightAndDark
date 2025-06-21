@@ -14,6 +14,7 @@ public class PlayerState_Parry : PlayerState
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("Player is parrying");
         player.canMove = false;
         player.ZeroVelocity();
         player.isParrying = true;
@@ -26,6 +27,7 @@ public class PlayerState_Parry : PlayerState
     {
         base.Exit();
         player.canMove = true;
+        player.isParrying = false;
     }
 
     public override void Update()

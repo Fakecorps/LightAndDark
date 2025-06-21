@@ -175,7 +175,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 10
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -262,10 +262,15 @@ MonoBehaviour:
   stunDirection: {x: 1.5, y: 1}
   canBeStunned: 0
   counterImage: {fileID: 8168363380105193110}
+  dizzyDuration: 3
   enableChase: 1
   updateTargetInterval: 0.5
   PlayerTransform: {fileID: 0}
   isDarkStealth: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  isDead: 0
 --- !u!114 &6716198967517890197
 MonoBehaviour:
   m_ObjectHideFlags: 0

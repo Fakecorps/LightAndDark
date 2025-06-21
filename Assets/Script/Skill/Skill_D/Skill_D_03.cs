@@ -25,11 +25,11 @@ public class Skill_D_03 : Skill
             Instance = this;
         }
     }
-    public void Start()
+    protected override void Start()
     {
         player = Player.ActivePlayer;
         GetOriColor();
-        DecoyTransform = player.transform;
+        DecoyTransform = PlayerManager.Instance.player.transform;
     }
     public override bool CanUseSkill()
     {
@@ -98,6 +98,7 @@ public class Skill_D_03 : Skill
             player.transform.position,
             player.transform.rotation
         );
+        DecoyTransform = decoy.transform;
 
         Decoy decoyScript = decoy.GetComponent<Decoy>();
         decoyScript.Initialize(explosionRadius, explosionDamage);

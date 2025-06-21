@@ -51,9 +51,9 @@ public class SkillManager : MonoBehaviour
             switch (skillID)
             {
                 case 0:
-                    if (UnlockSkill_L_01)
+                    if (UnlockSkill_L_04)
                     {
-                        skill_L_01.CanUseSkill();
+                        skill_L_04.CanUseSkill();
                     }
                     else
                     {
@@ -81,9 +81,9 @@ public class SkillManager : MonoBehaviour
                     }
                     break;
                 case 3:
-                    if (UnlockSkill_L_04)
+                    if (UnlockSkill_L_01)
                     {
-                        skill_L_04.CanUseSkill();
+                        skill_L_01.CanUseSkill();
                     }
                     else
                     {

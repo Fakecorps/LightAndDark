@@ -108,10 +108,12 @@ public class Player : Entity
         GroundCheck();
         StateMachine.currentState.Update();
         anim.SetFloat("yVelocity", rb.velocity.y);
+
         if (canAttack && inputControl.Player.Attack.triggered && isUltActive && CanPerformPhantomAttack())
         {
             TriggerPhantomAttack();
         }
+
         AttackCount = PlayerManager.Instance.isPlayerLight? 1 : 2;
     }
 
@@ -148,6 +150,7 @@ public class Player : Entity
         if (PlayerManager.Instance.isPlayerLight)
         { 
             parrySuccess = true;
+            Skill_L_01.Instance.UseSkill();
         }
         else
         {

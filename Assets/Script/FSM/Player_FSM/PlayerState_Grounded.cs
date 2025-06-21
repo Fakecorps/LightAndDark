@@ -23,6 +23,7 @@ public class PlayerState_Grounded : PlayerState
         base.Update();
         if (player.inputControl.Player.Skill04.triggered)
         {
+            Debug.Log("Parryed");
             player.rb.velocity = Vector2.zero;
             stateMachine.ChangeState(player.parryState);
         }
