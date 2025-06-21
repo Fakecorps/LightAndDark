@@ -63527,6 +63527,22 @@ PrefabInstance:
       propertyPath: daggerSpeed
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 2829536111052258191, guid: 28a0a586ff3530745884c8a02e88186f, type: 3}
+      propertyPath: spawnPoint
+      value: 
+      objectReference: {fileID: 1329483006}
+    - target: {fileID: 2829536111052258191, guid: 28a0a586ff3530745884c8a02e88186f, type: 3}
+      propertyPath: wavePrefab
+      value: 
+      objectReference: {fileID: 4759005466311266844, guid: 595cc212b42c6dc449eafc76a72e84a9, type: 3}
+    - target: {fileID: 2829536111052258191, guid: 28a0a586ff3530745884c8a02e88186f, type: 3}
+      propertyPath: waveScaleX
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 2829536111052258191, guid: 28a0a586ff3530745884c8a02e88186f, type: 3}
+      propertyPath: waveScaleY
+      value: 350
+      objectReference: {fileID: 0}
     - target: {fileID: 3358466640408910146, guid: 28a0a586ff3530745884c8a02e88186f, type: 3}
       propertyPath: DashDistance
       value: 25
@@ -63586,6 +63602,18 @@ PrefabInstance:
     - target: {fileID: 8658567162978868083, guid: 28a0a586ff3530745884c8a02e88186f, type: 3}
       propertyPath: UnlockSkill_D_04
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8744633442853874437, guid: 28a0a586ff3530745884c8a02e88186f, type: 3}
+      propertyPath: width
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8744633442853874437, guid: 28a0a586ff3530745884c8a02e88186f, type: 3}
+      propertyPath: skillRange
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8744633442853874437, guid: 28a0a586ff3530745884c8a02e88186f, type: 3}
+      propertyPath: spikeRiseDuration
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

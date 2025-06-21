@@ -11,17 +11,20 @@ public class Projectile_SlashWave : MonoBehaviour
     [Header("Damage Settings")]
     public int damagePerTick = 5;
     public float tickInterval = 0.3f;
-    public float knockbackForce = 2f;
+    public float knockbackForce = 8f; // 增加击退力度
     public LayerMask enemyLayer;
+    public float stunDuration = 0.5f;
 
-    [Header("Collider Settings")]
-    public float colliderScaleFactor = 0.8f; // 碰撞体缩放因子，默认0.8
+    [Header("Visual Effects")]
+    public GameObject hitEffectPrefab; // 受击特效
+    public float hitEffectDuration = 0.2f;
 
     private Vector3 startPosition;
     private float nextDamageTime;
     private List<Enemy> affectedEnemies = new List<Enemy>();
     private int direction = 1;
     private bool isDestroying = false;
+    private float knockbackMultiplier = 1.0f; // 击退倍率
 
     public void SetDirection(int dir)
     {
@@ -37,18 +40,10 @@ public class Projectile_SlashWave : MonoBehaviour
         }
     }
 
-    // 设置碰撞体大小（考虑缩放因子）
-    public void SetColliderSize(float width, float height)
+    // 设置击退倍率（可选）
+    public void SetKnockbackMultiplier(float multiplier)
     {
-        BoxCollider2D collider = GetComponent<BoxCollider2D>();
-        if (collider != null)
-        {
-            // 应用缩放因子减小碰撞体
-            collider.size = new Vector2(
-                width * colliderScaleFactor,
-                height * colliderScaleFactor
-            );
-        }
+        knockbackMultiplier = multiplier;
     }
 
     private void Start()
@@ -73,7 +68,7 @@ public class Projectile_SlashWave : MonoBehaviour
             return;
         }
 
-        // 处理伤害
+        // 处理伤害和击退
         if (Time.time >= nextDamageTime)
         {
             ApplyDamageAndKnockback();
@@ -86,10 +81,12 @@ public class Projectile_SlashWave : MonoBehaviour
         BoxCollider2D collider = GetComponent<BoxCollider2D>();
         if (collider == null) return;
 
-        // 使用实际碰撞体大小进行检测
+        // 扩大检测范围以确保捕获敌人
+        Vector2 detectionSize = collider.size * 1.2f;
+
         Collider2D[] colliders = Physics2D.OverlapBoxAll(
             transform.position,
-            collider.size,
+            detectionSize,
             0,
             enemyLayer
         );
@@ -100,31 +97,61 @@ public class Projectile_SlashWave : MonoBehaviour
             if (enemy != null && !affectedEnemies.Contains(enemy))
             {
                 affectedEnemies.Add(enemy);
+                ApplyStunAndKnockback(enemy, true);
             }
         }
     }
+
     private void ApplyDamageAndKnockback()
     {
-        // 创建临时列表处理有效敌人
-        List<Enemy> validEnemies = new List<Enemy>();
-
-        foreach (Enemy enemy in affectedEnemies)
+        for (int i = affectedEnemies.Count - 1; i >= 0; i--)
         {
-            if (enemy != null && enemy.gameObject.activeInHierarchy)
+            if (affectedEnemies[i] != null)
             {
-                validEnemies.Add(enemy);
+                // 造成伤害
+                affectedEnemies[i].TakeDamage(damagePerTick);
+
+                // 应用击退和眩晕
+                ApplyStunAndKnockback(affectedEnemies[i], false);
+            }
+            else
+            {
+                affectedEnemies.RemoveAt(i);
             }
         }
+    }
 
-        // 更新受影响敌人列表
-        affectedEnemies = validEnemies;
-
-        // 对有效敌人造成伤害
-        foreach (Enemy enemy in affectedEnemies)
+    private void ApplyStunAndKnockback(Enemy enemy, bool isInitial)
+    {
+        // 确保敌人进入眩晕状态
+        if (enemy.stateMachine.currentState != enemy.dizzyState)
         {
-            enemy.TakeDamage(damagePerTick);
-            Vector2 knockbackDirection = new Vector2(direction, 0);
-            enemy.ApplyKnockback(knockbackDirection * knockbackForce);
+            enemy.stateMachine.ChangeState(enemy.dizzyState);
+            enemy.ApplyStun(stunDuration);
+        }
+
+        // 应用更强烈的击退效果
+        float calculatedForce = knockbackForce * knockbackMultiplier;
+
+        // 使用AddForce替代SetVelocity以获得更真实的物理效果
+        Vector2 knockbackDirection = new Vector2(direction, 0.2f); // 轻微向上击退
+        enemy.rb.AddForce(knockbackDirection * calculatedForce, ForceMode2D.Impulse);
+
+        // 添加受击特效
+        if (hitEffectPrefab != null)
+        {
+            GameObject effect = Instantiate(
+                hitEffectPrefab,
+                enemy.transform.position,
+                Quaternion.identity
+            );
+            Destroy(effect, hitEffectDuration);
+        }
+
+        // 首次接触时应用额外击退
+        if (isInitial)
+        {
+            enemy.rb.AddForce(knockbackDirection * calculatedForce * 1.5f, ForceMode2D.Impulse);
         }
     }
 
@@ -136,6 +163,7 @@ public class Projectile_SlashWave : MonoBehaviour
         if (enemy != null && !affectedEnemies.Contains(enemy))
         {
             affectedEnemies.Add(enemy);
+            ApplyStunAndKnockback(enemy, true);
         }
     }
 
@@ -162,15 +190,6 @@ public class Projectile_SlashWave : MonoBehaviour
     {
         if (isDestroying) return;
         isDestroying = true;
-
-        // 停止所有击退效果
-        foreach (Enemy enemy in affectedEnemies)
-        {
-            if (enemy != null)
-            {
-                enemy.StopKnockback();
-            }
-        }
 
         Destroy(gameObject);
     }

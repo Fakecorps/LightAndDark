@@ -46,8 +46,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
-  healthSlider: {fileID: 0}
+  healthBar: {fileID: 0}
   healthText: {fileID: 0}
+  healthBarBackground: {fileID: 0}
+  fullHealthColor: {r: 0, g: 1, b: 0, a: 1}
+  lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
+  lowHealthThreshold: 30
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  isPlayer: 0
 --- !u!1 &6933165132128888218
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,6 +160,14 @@ PrefabInstance:
     - target: {fileID: 6230748704124060023, guid: efe10a5aa3ca1c54dbd09f1b1a216881, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230748704124060023, guid: efe10a5aa3ca1c54dbd09f1b1a216881, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230748704124060023, guid: efe10a5aa3ca1c54dbd09f1b1a216881, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6230748704124060023, guid: efe10a5aa3ca1c54dbd09f1b1a216881, type: 3}
       propertyPath: m_ConstrainProportionsScale

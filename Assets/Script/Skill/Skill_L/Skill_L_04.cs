@@ -12,10 +12,6 @@ public class Skill_L_04 : Skill
     public float waveSpeed = 3f;
     public float maxDistance = 15f;
 
-    [Header("Wave Size")]
-    public float waveScaleX = 5f;  // 水平缩放
-    public float waveScaleY = 7f;  // 垂直缩放
-
     [Header("Timing Settings")]
     public float animationDuration = 1.2f;
     public float waveSpawnDelay = 0.8f;
@@ -28,9 +24,6 @@ public class Skill_L_04 : Skill
     protected override void Start()
     {
         Instance = this;
-        // 设置默认缩放值
-        waveScaleX = 5f;
-        waveScaleY = 7f;
     }
 
     public override void UseSkill()
@@ -84,19 +77,17 @@ public class Skill_L_04 : Skill
             Destroy(effect, 1f);
         }
 
-        // 生成剑气波
+        // 生成剑气波（使用预制体原始大小）
         GameObject wave = Instantiate(
             wavePrefab,
             spawnPosition,
             Quaternion.identity
         );
 
-        // 设置剑气波大小
-        wave.transform.localScale = new Vector3(
-            waveScaleX * (facingDir == 1 ? 1 : -1),
-            waveScaleY,
-            1
-        );
+        // 设置方向（仅翻转X轴）
+        Vector3 waveScale = wave.transform.localScale;
+        waveScale.x = Mathf.Abs(waveScale.x) * (facingDir == 1 ? 1 : -1);
+        wave.transform.localScale = waveScale;
 
         // 设置移动属性
         Projectile_SlashWave waveScript = wave.GetComponent<Projectile_SlashWave>();
@@ -105,14 +96,13 @@ public class Skill_L_04 : Skill
             waveScript.moveSpeed = waveSpeed;
             waveScript.maxDistance = maxDistance;
             waveScript.SetDirection(facingDir);
-
-            // 设置碰撞体大小（使用缩放因子）
-            waveScript.SetColliderSize(waveScaleX, waveScaleY);
-
-            // 可选：调整碰撞体缩放因子
-            //waveScript.colliderScaleFactor = 0.7f; // 0.7意味着碰撞体是视觉大小的70%
+        }
+        else
+        {
+            Debug.LogWarning("剑气波预制体缺少Projectile_SlashWave组件");
         }
     }
+
     public void CancelSkill()
     {
         if (isCasting)
