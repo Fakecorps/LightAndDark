@@ -12,7 +12,6 @@ public class EnemyState_Idle : EnemyState_Ground
     public override void Enter()
     {
         base.Enter();
-
         stateTimer = enemy.idleTime;
     }
 

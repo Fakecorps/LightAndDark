@@ -6,10 +6,10 @@ public class Archer_Animaton_Trigger : MonoBehaviour
 {
     private Enemy_Archer enemy => GetComponentInParent<Enemy_Archer>();
 
-    private void AnimationTrigger()
-    {
-        enemy.AnimationTrigger();
-    }
+    //private void AnimationTrigger()
+    //{
+    //    enemy.AnimationTrigger();
+    //}
 
     private void AttackTrigger()
     {

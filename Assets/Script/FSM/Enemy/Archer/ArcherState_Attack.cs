@@ -54,14 +54,14 @@ public class ArcherState_Attack : EnemyState_Unprotected
 
         enemy.SetVelocity(enemy.moveSpeed * moveDir, enemy.rb.velocity.y);
 
-        if (isTargetDetected.distance < enemy.attackDistance && Time.time >= enemy.lastTimeAttacked + enemy.attackCoolDown)
+        if (Mathf.Abs(isTargetDetected.distance - enemy.attackDistance)< 20 && Time.time >= enemy.lastTimeAttacked + enemy.attackCoolDown)
         {
             stateMachine.ChangeState(enemy.battleState);
         }
 
         if (!isTargetDetected && Time.time - chaseTimer > enemy.chaseTime)
         {
-            stateMachine.ChangeState(enemy.idleState);
+            stateMachine.ChangeState(enemy.moveState);
         }
     }
 

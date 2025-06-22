@@ -16,16 +16,48 @@ AnimationClip:
   m_EulerCurves: []
   m_PositionCurves: []
   m_ScaleCurves: []
-  m_FloatCurves: []
+  m_FloatCurves:
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.4
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_FlipX
+    path: 
+    classID: 212
+    script: {fileID: 0}
+    flags: 0
   m_PPtrCurves:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 73fbd91466990d5428b2ba26ed10153d, type: 3}
+      value: {fileID: 21300000, guid: 143cb5deb756f1f42accbe23106daa8c, type: 3}
     - time: 0.1
-      value: {fileID: 21300000, guid: 017ea8eac06957444aeaead0727e25cd, type: 3}
+      value: {fileID: 21300000, guid: bdf051108bcee75469888712a3e5f0b8, type: 3}
     - time: 0.2
-      value: {fileID: 21300000, guid: b83adba6c4806134aa11fac71796152a, type: 3}
+      value: {fileID: 21300000, guid: 9561d91222b05754b8b871c87c7d0eef, type: 3}
+    - time: 0.3
+      value: {fileID: 21300000, guid: 09d0ab6a1a0f8f647bfc68b910e345e3, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -40,6 +72,15 @@ AnimationClip:
     genericBindings:
     - serializedVersion: 2
       path: 0
+      attribute: 555744692
+      script: {fileID: 0}
+      typeID: 212
+      customType: 0
+      isPPtrCurve: 0
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    - serializedVersion: 2
+      path: 0
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -48,20 +89,21 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 73fbd91466990d5428b2ba26ed10153d, type: 3}
-    - {fileID: 21300000, guid: 017ea8eac06957444aeaead0727e25cd, type: 3}
-    - {fileID: 21300000, guid: b83adba6c4806134aa11fac71796152a, type: 3}
+    - {fileID: 21300000, guid: 143cb5deb756f1f42accbe23106daa8c, type: 3}
+    - {fileID: 21300000, guid: bdf051108bcee75469888712a3e5f0b8, type: 3}
+    - {fileID: 21300000, guid: 9561d91222b05754b8b871c87c7d0eef, type: 3}
+    - {fileID: 21300000, guid: 09d0ab6a1a0f8f647bfc68b910e345e3, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.3
+    m_StopTime: 0.4
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 1
+    m_LoopTime: 0
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
@@ -71,7 +113,37 @@ AnimationClip:
     m_KeepOriginalPositionXZ: 0
     m_HeightFromFeet: 0
     m_Mirror: 0
-  m_EditorCurves: []
+  m_EditorCurves:
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.4
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_FlipX
+    path: 
+    classID: 212
+    script: {fileID: 0}
+    flags: 0
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
