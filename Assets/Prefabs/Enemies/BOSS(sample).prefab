@@ -161,10 +161,9 @@ GameObject:
   - component: {fileID: 8857668370906887709}
   - component: {fileID: 7451012083499455551}
   - component: {fileID: 6504114773973412454}
-  - component: {fileID: 7220539093400499097}
   - component: {fileID: 7239891282006116656}
   - component: {fileID: 7784694415375488432}
-  - component: {fileID: 5741363866613635400}
+  - component: {fileID: 7858821563785011878}
   m_Layer: 7
   m_Name: BOSS(sample)
   m_TagString: Untagged
@@ -180,7 +179,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4578261643298016942}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -254,55 +253,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &7220539093400499097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4578261643298016942}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d513f4352d467941a9fbe9ced623ef9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundCheckSpot: {fileID: 3812409755624125819}
-  isGrounded: 0
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  groundCheckDistance: 0.37
-  wallCheckSpot: {fileID: 7879611842466672516}
-  attackCheckSpot: {fileID: 7339176290529017091}
-  attackRadius: 1.49
-  isOnHit: 0
-  KnockBackForce: {x: 0, y: 2}
-  PlayerLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  DecoyLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  moveSpeed: 3.7
-  idleTime: 3
-  attackCoolDown: 0.5
-  lastTimeAttacked: 0
-  attackDistance: 1.5
-  chaseTime: 1
-  damage: 5
-  stunDuration: 1
-  stunDirection: {x: 1.5, y: 1}
-  canBeStunned: 0
-  counterImage: {fileID: 4868042012600453595}
-  dizzyDuration: 0
-  enableChase: 1
-  updateTargetInterval: 0.5
-  PlayerTransform: {fileID: 0}
-  isDarkStealth: 0
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  isDead: 0
 --- !u!114 &7239891282006116656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,9 +295,9 @@ MonoBehaviour:
   DecoyLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  moveSpeed: 3.5
+  moveSpeed: 5
   idleTime: 2.5
-  attackCoolDown: 2
+  attackCoolDown: 5
   lastTimeAttacked: 0
   attackDistance: 5
   chaseTime: 1
@@ -365,55 +315,30 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isDead: 0
---- !u!114 &5741363866613635400
+--- !u!114 &7858821563785011878
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4578261643298016942}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d513f4352d467941a9fbe9ced623ef9, type: 3}
+  m_Script: {fileID: 11500000, guid: 412f782be47f73f4396681bf7a780c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheckSpot: {fileID: 3812409755624125819}
-  isGrounded: 0
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  groundCheckDistance: 0.37
-  wallCheckSpot: {fileID: 7879611842466672516}
-  attackCheckSpot: {fileID: 7339176290529017091}
-  attackRadius: 2.49
-  isOnHit: 0
-  KnockBackForce: {x: 0, y: 2}
-  PlayerLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  DecoyLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  moveSpeed: 3.7
-  idleTime: 3
-  attackCoolDown: 0.5
-  lastTimeAttacked: 0
-  attackDistance: 1.5
-  chaseTime: 1
-  damage: 5
-  stunDuration: 1
-  stunDirection: {x: 1.5, y: 1}
-  canBeStunned: 0
-  counterImage: {fileID: 4868042012600453595}
-  dizzyDuration: 0
-  enableChase: 1
-  updateTargetInterval: 0.5
-  PlayerTransform: {fileID: 0}
-  isDarkStealth: 0
-  OnDeath:
+  maxHealth: 100
+  currentHealth: 0
+  healthBar: {fileID: 0}
+  healthText: {fileID: 0}
+  healthBarBackground: {fileID: 0}
+  fullHealthColor: {r: 0, g: 1, b: 0, a: 1}
+  lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
+  lowHealthThreshold: 30
+  onDeath:
     m_PersistentCalls:
       m_Calls: []
-  isDead: 0
+  isPlayer: 0
 --- !u!1 &4868042012600453595
 GameObject:
   m_ObjectHideFlags: 0

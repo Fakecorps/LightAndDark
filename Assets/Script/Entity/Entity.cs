@@ -122,6 +122,10 @@ public class Entity : MonoBehaviour
         KnockBack(KnockBackForce.x, KnockBackForce.y);
 
         Debug.Log($"{gameObject.name}受到{damage}点伤害");
+        if (CinemachineShake.Instance != null)
+        {
+            CinemachineShake.Instance.TriggerShake();
+        }
     }
 
     public virtual void KnockBack(float _xForce, float _yForce)

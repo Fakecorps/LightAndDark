@@ -53,6 +53,11 @@ public class Skill_L_01 : Skill
                 goblin.TakeDamage(ParryDamage);
                 goblin.SetVelocity(player.getFacingDir()*KnockBackForce.x, KnockBackForce.y);
             }
+            if (hit.TryGetComponent<Enemy_Goblin>(out var archer))
+            {
+                archer.TakeDamage(ParryDamage);
+                archer.SetVelocity(player.getFacingDir() * KnockBackForce.x, KnockBackForce.y);
+            }
         }
         player.StateMachine.ChangeState(player.idleState);
         yield break; // 无需等待

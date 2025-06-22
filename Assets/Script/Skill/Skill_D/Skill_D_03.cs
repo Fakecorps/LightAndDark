@@ -8,11 +8,10 @@ public class Skill_D_03 : Skill
     [Header("Skill Settings")]
     [SerializeField] private GameObject decoyPrefab;  // 假身预制体
     [SerializeField] private float stealthDuration = 5f;  // 隐身持续时间
-    [SerializeField] private float decoyDuration = 10f;  // 假身存在时间
     [SerializeField] private float explosionRadius = 3f;  // 爆炸范围
     [SerializeField] private int explosionDamage = 30;  // 爆炸伤害
     public float DizzyDuration = 2f;  // 眩晕时间
-
+    private Decoy activeDecoy;
     private SpriteRenderer playerSprite;  // 玩家的SpriteRenderer
     private Color originalColor;  // 玩家原始颜色
     public bool isStealthed = false;  // 是否隐身中
@@ -101,6 +100,7 @@ public class Skill_D_03 : Skill
         DecoyTransform = decoy.transform;
 
         Decoy decoyScript = decoy.GetComponent<Decoy>();
+        activeDecoy = decoyScript;
         decoyScript.Initialize(explosionRadius, explosionDamage);
 
         SpriteRenderer decoySprite = decoy.GetComponent<SpriteRenderer>();
@@ -109,5 +109,28 @@ public class Skill_D_03 : Skill
             decoySprite.sprite = playerSprite.sprite;
             decoySprite.flipX = playerSprite.flipX;
         }
+
+        decoyScript.OnDestroyed += HandleDecoyDestroyed;
+    }
+
+    private void HandleDecoyDestroyed()
+    {
+        // 重置引用
+        activeDecoy = null;
+        DecoyTransform = null;
+
+        // 如果还在隐身状态，结束隐身
+        if (isStealthed)
+        {
+            StopCoroutine(StealthRoutine());
+            SetStealth(false);
+            isStealthed = false;
+        }
+    }
+
+    // 添加公共方法检查假身状态
+    public bool IsDecoyActive()
+    {
+        return activeDecoy != null;
     }
 }

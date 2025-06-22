@@ -6,8 +6,6 @@ using UnityEngine;
 public class ArcherState_Battle : EnemyState_Unprotected
 {
     private Enemy_Archer enemy;
-    private bool collider = false;
-
     private int moveDir;
     private float dashTimer;
     private Transform PlayerTransform;

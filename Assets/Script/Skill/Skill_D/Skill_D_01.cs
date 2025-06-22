@@ -54,6 +54,13 @@ public class Skill_D_01 : Skill
                 yield return new WaitForSeconds(chaseDisableTime);
                 goblin.enableChase = true;
             }
+            if (hit.TryGetComponent<Enemy_Archer>(out var archer))
+            {
+                archer.enableChase = false;
+                archer.stateMachine.ChangeState(archer.idleState);
+                yield return new WaitForSeconds(chaseDisableTime);
+                archer.enableChase = true;
+            }
         }
 
         yield break; // 无需等待

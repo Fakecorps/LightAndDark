@@ -9,7 +9,6 @@ public class DarkField : MonoBehaviour
     [SerializeField] private float radius = 5f;
     [SerializeField] private float damageInterval = 0.2f;
     [SerializeField] private int damagePerTick = 5;
-    [SerializeField] private float slowPercentage = 0.5f;
 
     private HashSet<Enemy> affectedEnemies = new HashSet<Enemy>();
 

@@ -8,10 +8,15 @@ public class Enemy_Animation_Trigger : MonoBehaviour
     private Enemy enemy;
     private void Start()
     {
-        enemy = GetComponentInParent<Enemy_Goblin>();
-        //if (enemy == null )
-        //    enemy = GetComponentInParent<Enemy_Archer>();
-        
+        enemy = GetComponentInParent<Enemy>();
+
+        if (enemy == null)
+        {
+            enemy = GetComponentInParent<Enemy_Goblin>();
+            if (enemy == null)
+                enemy = GetComponentInParent<Enemy_Archer>();
+        }
+
     }
 
     private void AnimationTrigger()
