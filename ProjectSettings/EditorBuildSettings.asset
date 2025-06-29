@@ -7,11 +7,8 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/StartMenu.unity
     guid: 851975cd212a3134e84a8c6ff2485de2
-  - enabled: 1
-    path: Assets/Scenes/NewTestLand.unity
-    guid: 706df68d8cf708a4a894d8d68de8fcce
   m_configObjects: {}
