@@ -6,7 +6,7 @@ public class EnemyState
 {
     protected EnemyStateMachine stateMachine;
     protected Enemy enemyBase;
-
+    protected GameObject dboss;
     protected bool triggerCalled;
     private string animBoolName;
     protected float stateTimer;
