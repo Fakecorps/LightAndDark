@@ -1030,6 +1030,7 @@ GameObject:
   - component: {fileID: 2079188903}
   - component: {fileID: 2079188905}
   - component: {fileID: 2079188904}
+  - component: {fileID: 2079188906}
   m_Layer: 0
   m_Name: Animator
   m_TagString: Untagged
@@ -1125,6 +1126,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2079188906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079188902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3fda2ee404137a46a709982fba5afd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2118179971 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1376078024749534858, guid: 328a557529056814ab065de0529939d4, type: 3}
@@ -1270,33 +1283,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
-    - target: {fileID: 5279795519513978055, guid: 34c7f7b5e0445f840b2533bf50f320d7, type: 3}
-      propertyPath: orthographic size
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 5501374007916388953, guid: 34c7f7b5e0445f840b2533bf50f320d7, type: 3}
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 765487695}
-    - target: {fileID: 5797941285273986580, guid: 34c7f7b5e0445f840b2533bf50f320d7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5797941285273986580, guid: 34c7f7b5e0445f840b2533bf50f320d7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8388077233376592991, guid: 34c7f7b5e0445f840b2533bf50f320d7, type: 3}
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 564533102}
     - target: {fileID: 8431854653781054338, guid: 34c7f7b5e0445f840b2533bf50f320d7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.98
+      value: 7.2266684
       objectReference: {fileID: 0}
     - target: {fileID: 8431854653781054338, guid: 34c7f7b5e0445f840b2533bf50f320d7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.249998
+      value: 19.219997
       objectReference: {fileID: 0}
     - target: {fileID: 8431854653781054338, guid: 34c7f7b5e0445f840b2533bf50f320d7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1329,14 +1330,6 @@ PrefabInstance:
     - target: {fileID: 8431854653781054338, guid: 34c7f7b5e0445f840b2533bf50f320d7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8476596198841434155, guid: 34c7f7b5e0445f840b2533bf50f320d7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.09999895
-      objectReference: {fileID: 0}
-    - target: {fileID: 8476596198841434155, guid: 34c7f7b5e0445f840b2533bf50f320d7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5999985
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1588,11 +1581,11 @@ PrefabInstance:
       objectReference: {fileID: 2118179971}
     - target: {fileID: 7390026428318616062, guid: f64b0e4c7fb1a444fa9aaa36b5870aa2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.88
+      value: 9.5
       objectReference: {fileID: 0}
     - target: {fileID: 7390026428318616062, guid: f64b0e4c7fb1a444fa9aaa36b5870aa2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.65
+      value: 21.6
       objectReference: {fileID: 0}
     - target: {fileID: 7390026428318616062, guid: f64b0e4c7fb1a444fa9aaa36b5870aa2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1628,15 +1621,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7648796961836719317, guid: f64b0e4c7fb1a444fa9aaa36b5870aa2, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.57
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7648796961836719317, guid: f64b0e4c7fb1a444fa9aaa36b5870aa2, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.57
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7648796961836719317, guid: f64b0e4c7fb1a444fa9aaa36b5870aa2, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3.57
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
