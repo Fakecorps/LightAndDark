@@ -32,10 +32,14 @@ public class EnemyState_Ground : EnemyState_Unprotected
             }
             if(enemy is Enemy_Archer)
             {
-                    var archer = enemy as Enemy_Archer;
-                    stateMachine.ChangeState(archer.attackState);
+                var archer = enemy as Enemy_Archer;
+                stateMachine.ChangeState(archer.attackState);
             }
-            
+            if (enemy is Enemy_DarkBoss)
+            {
+                var dboss = enemy as Enemy_DarkBoss;
+                stateMachine.ChangeState(dboss.attackState);
+            }
         }
 
     }

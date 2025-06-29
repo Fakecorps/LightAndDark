@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,18 +12,13 @@ public class EF_Build : MonoBehaviour
     [Tooltip("需要控制激活状态的物体列表")]
     public List<GameObject> targetObjects = new List<GameObject>();
 
-    [Header("按键设置")]
-    [Tooltip("激活物体的按键")]
-    public KeyCode activationKey = KeyCode.F;
-
-    [Tooltip("进入区域时是否自动激活物体")]
-    public bool activateOnEnter = false;
-
-    [Tooltip("离开区域时是否自动禁用物体")]
-    public bool deactivateOnExit = false;
+    [Header("延迟设置")]
+    [Tooltip("离开区域后维持状态的时间（秒）")]
+    public float exitDelay = 3f;
 
     private bool playerInZone = false;
     private bool objectsActive = false;
+    private Coroutine delayCoroutine; // 用于存储延迟协程的引用
 
     void Start()
     {
@@ -49,7 +45,7 @@ public class EF_Build : MonoBehaviour
     void Update()
     {
         // 当玩家在区域内按下指定按键时切换物体状态
-        if (playerInZone && Input.GetKeyDown(activationKey))
+        if (playerInZone)
         {
             objectsActive = !objectsActive;
             UpdateObjectsState();
@@ -62,28 +58,40 @@ public class EF_Build : MonoBehaviour
         {
             playerInZone = true;
 
-            // 如果设置了进入时自动激活
-            if (activateOnEnter)
+            // 如果存在延迟协程则停止（玩家在延迟期间返回）
+            if (delayCoroutine != null)
             {
+                StopCoroutine(delayCoroutine);
+                delayCoroutine = null;
+            }
                 objectsActive = true;
                 UpdateObjectsState();
-            }
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player1"))
         {
             playerInZone = false;
-
-            // 如果设置了离开时自动禁用
-            if (deactivateOnExit)
-            {
-                objectsActive = false;
-                UpdateObjectsState();
-            }
+            delayCoroutine = StartCoroutine(DelayedDeactivation());
         }
+    }
+
+    // 延迟禁用协程
+    private IEnumerator DelayedDeactivation()
+    {
+        // 等待指定时间
+        yield return new WaitForSeconds(exitDelay);
+
+        // 延迟结束后检查玩家是否仍然不在区域内
+        if (!playerInZone)
+        {
+            objectsActive = false;
+            UpdateObjectsState();
+        }
+
+        delayCoroutine = null;
     }
 
     // 更新所有物体的激活状态

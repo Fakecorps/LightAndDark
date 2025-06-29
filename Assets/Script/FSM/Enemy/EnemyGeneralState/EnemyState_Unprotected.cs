@@ -34,7 +34,6 @@ public class EnemyState_Unprotected : EnemyState
                 var goblin = enemy as Enemy_Goblin;
                 stateMachine.ChangeState(goblin.stunState);
             }
-            
         }
     }
 }

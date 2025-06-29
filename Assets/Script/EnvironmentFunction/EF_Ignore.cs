@@ -5,7 +5,7 @@ public class EF_Ignore : MonoBehaviour
 {
     [Header("基本设置")]
     [Tooltip("玩家对象的Tag名称")]
-    public string playerTag = "Player";
+    public string playerTag = "Player2";
 
     [Tooltip("穿墙效果持续时间(秒)")]
     [Range(1f, 10f)] public float ignoreTime = 3f;

@@ -14,7 +14,12 @@ public class Enemy_Animation_Trigger : MonoBehaviour
         {
             enemy = GetComponentInParent<Enemy_Goblin>();
             if (enemy == null)
+            {
                 enemy = GetComponentInParent<Enemy_Archer>();
+                if (enemy == null)
+                    enemy = GetComponentInParent<Enemy_DarkBoss>();
+            }
+
         }
 
     }

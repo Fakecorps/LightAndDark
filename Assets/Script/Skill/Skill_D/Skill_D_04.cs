@@ -65,9 +65,13 @@ public class Skill_D_04 : Skill
                 goblin.stateMachine.ChangeState(goblin.stunState);
                 goblin.TakeDamage(Damage);
             }
-            if (hit.TryGetComponent<Enemy_Goblin>(out var archer))
+            if (hit.TryGetComponent<Enemy_Archer>(out var archer))
             {
                 archer.TakeDamage(Damage);
+            }
+            if (hit.TryGetComponent<Enemy_DarkBoss>(out var dboss))
+            {
+                dboss.TakeDamage(Damage);
             }
         }
         yield break; // 无需等待

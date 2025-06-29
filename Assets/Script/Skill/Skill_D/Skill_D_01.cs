@@ -61,6 +61,13 @@ public class Skill_D_01 : Skill
                 yield return new WaitForSeconds(chaseDisableTime);
                 archer.enableChase = true;
             }
+            if (hit.TryGetComponent<Enemy_DarkBoss>(out var dboss))
+            {
+                dboss.enableChase = false;
+                dboss.stateMachine.ChangeState(dboss.idleState);
+                yield return new WaitForSeconds(chaseDisableTime);
+                dboss.enableChase = true;
+            }
         }
 
         yield break; // 无需等待

@@ -60,11 +60,20 @@ MonoBehaviour:
   attackCheckSpot: {fileID: 9124201572243449467}
   attackRadius: 0.7
   isOnHit: 0
+  KnockBackForce: {x: 0, y: 0}
   AxisInput: {x: 0, y: 0}
+  sr: {fileID: 0}
   isBusy: 0
+  canMove: 1
   moveSpeed: 7.5
   jumpForce: 16
   Normal_Attack_Damage: 15
+  parryDuration: 0
+  isParrying: 0
+  parrySuccess: 0
+  phantomAttackCD: 0.3
+  deathDelay: 2
+  AttackCount: 0
 --- !u!70 &5112894591073352369
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -97,8 +106,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0045705675, y: -0.039144754}
-  m_Size: {x: 0.13019684, y: 0.25575548}
+  m_Offset: {x: -0.0045705675, y: -0.01642375}
+  m_Size: {x: 0.13019684, y: 0.21031351}
   m_Direction: 0
 --- !u!50 &1430775989771107306
 Rigidbody2D:
@@ -165,7 +174,7 @@ Transform:
   m_GameObject: {fileID: 2528540699871888099}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.001, y: -0.15, z: 0}
+  m_LocalPosition: {x: 0.001, y: -0.123, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

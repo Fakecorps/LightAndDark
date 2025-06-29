@@ -24,7 +24,6 @@ public class EnemyState_Move : EnemyState_Ground
     {
         base.Update();
         enemy.SetVelocity(enemy.moveSpeed * enemy.getFacingDir(), enemy.rb.velocity.y);
-
         if (enemy.isGroundDetected() == false)
         {
             enemy.Flip();
