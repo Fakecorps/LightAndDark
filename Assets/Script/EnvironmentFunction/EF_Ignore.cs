@@ -13,54 +13,77 @@ public class EF_Ignore : MonoBehaviour
     [Tooltip("穿墙时的半透明颜色")]
     public Color fadeColor = new Color(1, 1, 1, 0.5f);
 
-    private Collider _collider;
-    private Renderer _renderer;
+    [Header("组件引用")]
+    [Tooltip("墙体的主碰撞体（非Trigger）")]
+    public Collider2D wallCollider;
+
+    [Tooltip("墙体的渲染器")]
+    public Renderer wallRenderer;
+
     private Color _originalColor;
     private bool _isActive = false;
 
     void Start()
     {
-        // 获取必要组件
-        _collider = GetComponent<Collider>();
-        _renderer = GetComponent<Renderer>();
 
-        if (_renderer != null)
+        if (wallRenderer != null)
         {
-            _originalColor = _renderer.material.color;
+            // 创建材质实例避免共享问题
+            wallRenderer.material = new Material(wallRenderer.material);
+            _originalColor = wallRenderer.material.color;
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        // 检查是否玩家且效果未激活
         if (!_isActive && other.CompareTag(playerTag))
         {
-            // 启动穿墙效果
             StartCoroutine(ActivateEffect());
+            Debug.Log("玩家进入墙体触发区域");
         }
     }
 
     IEnumerator ActivateEffect()
     {
         _isActive = true;
+        Debug.Log("穿墙效果启动");
 
-        // 禁用碰撞器
-        if (_collider != null) _collider.enabled = false;
-
-        // 改变视觉效果
-        if (_renderer != null)
+        // 禁用墙体碰撞
+        if (wallCollider != null)
         {
-            _renderer.material.color = fadeColor;
+            Debug.Log($"禁用碰撞体前状态: {wallCollider.enabled}");
+            wallCollider.enabled = false;
+
+            // 强制物理系统立即更新
+            Physics2D.SyncTransforms();
+
+            Debug.Log($"禁用碰撞体后状态: {wallCollider.enabled}");
         }
 
-        // 等待持续时间
-        yield return new WaitForSeconds(ignoreTime);
+        // 改变墙体视觉效果
+        if (wallRenderer != null)
+        {
+            wallRenderer.material.color = fadeColor;
+            Debug.Log("设置半透明颜色");
+        }
 
-        // 恢复碰撞器
-        if (_collider != null) _collider.enabled = true;
+        yield return new WaitForSeconds(ignoreTime);
+        Debug.Log($"效果结束，恢复状态");
+
+        // 恢复墙体碰撞
+        if (wallCollider != null)
+        {
+            wallCollider.enabled = true;
+            Physics2D.SyncTransforms();
+            Debug.Log("碰撞体已启用");
+        }
 
         // 恢复视觉
-        if (_renderer != null) _renderer.material.color = _originalColor;
+        if (wallRenderer != null)
+        {
+            wallRenderer.material.color = _originalColor;
+            Debug.Log("恢复原始颜色");
+        }
 
         _isActive = false;
     }
