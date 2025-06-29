@@ -34,7 +34,7 @@ public class EF_TP : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         // 检测玩家进入区域
         if (other.CompareTag("Player1"))
@@ -49,7 +49,7 @@ public class EF_TP : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other)
+    void OnTriggerExit2D(Collider2D other)
     {
         // 检测玩家离开区域
         if (other.CompareTag("Player1"))
