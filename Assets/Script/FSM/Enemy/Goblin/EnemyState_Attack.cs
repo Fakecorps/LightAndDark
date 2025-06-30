@@ -11,6 +11,7 @@ public class EnemyState_Attack : EnemyState_Unprotected
     private Transform PlayerTransform;
     private Transform DecoyTransform;
     private Transform TargetTransform;
+    private float lastTimeTurned;
 
     private RaycastHit2D isTargetDetected;
 
@@ -41,16 +42,18 @@ public class EnemyState_Attack : EnemyState_Unprotected
     public override void Update()
     {
         base.Update();
-
+        lastTimeTurned += Time.deltaTime;
         SetChaseTarget(Skill_D_03.Instance.isStealthed);
 
-        if (TargetTransform.position.x > enemy.transform.position.x)
+        if (TargetTransform.position.x > enemy.transform.position.x&&lastTimeTurned>0.2f)
         {
             moveDir = 1;
+            lastTimeTurned = 0;
         }
-        else if (TargetTransform.position.x < enemy.transform.position.x)
+        else if (TargetTransform.position.x < enemy.transform.position.x&&lastTimeTurned>0.2f)
         {
             moveDir = -1;
+            lastTimeTurned = 0;
         }
 
         enemy.SetVelocity(enemy.moveSpeed * moveDir, enemy.rb.velocity.y);
