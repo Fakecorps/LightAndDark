@@ -150,7 +150,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11.56, y: 8.78, z: -1.103323}
-  m_LocalScale: {x: 12, y: 12, z: 12}
+  m_LocalScale: {x: 8.7, y: 8.7, z: 8.7}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6103269331119392768}
@@ -239,10 +239,10 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  groundCheckDistance: 3.87
+  groundCheckDistance: 0.99
   wallCheckSpot: {fileID: 1100757555931023869}
   attackCheckSpot: {fileID: 2352235646698316627}
-  attackRadius: 3.85
+  attackRadius: 1.77
   isOnHit: 0
   KnockBackForce: {x: 0, y: 2}
   PlayerLayerMask:
@@ -251,7 +251,7 @@ MonoBehaviour:
   DecoyLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  moveSpeed: 27
+  moveSpeed: 10
   idleTime: 3
   attackCoolDown: 0.5
   lastTimeAttacked: 0
@@ -448,7 +448,7 @@ Transform:
   m_GameObject: {fileID: 8332936954124595597}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.287, y: -0.226, z: 0}
+  m_LocalPosition: {x: 0.22, y: -0.226, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -479,7 +479,7 @@ Transform:
   m_GameObject: {fileID: 8725070751959416922}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.424, y: -0.083, z: 0}
+  m_LocalPosition: {x: 0.456, y: -0.056, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

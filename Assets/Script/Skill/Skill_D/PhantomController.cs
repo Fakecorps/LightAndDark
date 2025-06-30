@@ -17,9 +17,9 @@ public class PhantomController : MonoBehaviour
 
         Vector3 enemyPos = target.transform.position;
         transform.position = new Vector3(
-            transform.position.x + 10,
+            transform.position.x + 1,
             enemyPos.y,  // 关键修改：使用敌人的Y轴高度
-            transform.position.z
+            enemyPos.z
         );
 
         // 设置缩放（增大基础值并添加方向控制）

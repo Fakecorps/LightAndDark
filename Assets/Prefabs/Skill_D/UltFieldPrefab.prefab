@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c6a8e93bb180a4a897b95848283219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRadius: 20
-  expandSpeed: 12
+  maxRadius: 8
+  expandSpeed: 7
   duration: 5
   sortingLayer: Enemy
   sortingOrder: -1
