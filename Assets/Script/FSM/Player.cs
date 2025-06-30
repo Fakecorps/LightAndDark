@@ -214,8 +214,16 @@ public class Player : Entity
         canAttack = false;
         inputControl.Disable();
 
-        // 延迟重置关卡
-        StartCoroutine(ResetLevelAfterDelay());
+        // 通过全局管理器执行重置
+        if (HealthSystemManager.Instance != null)
+        {
+            HealthSystemManager.Instance.ResetLevelAfterDelay(deathDelay);
+        }
+        else // 备用方案（理论上不会触发）
+        {
+            Debug.LogWarning("HealthSystemManager实例缺失！");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     private IEnumerator ResetLevelAfterDelay()
