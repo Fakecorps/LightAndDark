@@ -51,13 +51,13 @@ public class DBossState_Attack : EnemyState_Unprotected
         if (TargetTransform.position.x > enemy.transform.position.x)
         {
             moveDir = 1;
-            if (Mathf.Abs(TargetTransform.position.x - enemy.transform.position.x) < 5)
+            if (Mathf.Abs(TargetTransform.position.x - enemy.transform.position.x) < 7)
                 moveDir = 0;
         }
         else if (TargetTransform.position.x < enemy.transform.position.x)
         {
             moveDir = -1;
-            if (Mathf.Abs(TargetTransform.position.x - enemy.transform.position.x) < 5)
+            if (Mathf.Abs(TargetTransform.position.x - enemy.transform.position.x) < 7)
                 moveDir = 0;
         }
         enemy.SetVelocity(enemy.moveSpeed * moveDir*2, enemy.rb.velocity.y);
@@ -65,7 +65,7 @@ public class DBossState_Attack : EnemyState_Unprotected
         if (isTargetDetected.distance < enemy.attackDistance && Time.time >= enemy.lastTimeAttacked + enemy.attackCoolDown)
         {
             dboss.transform.localScale = v;
-            if(Time.time >= enemy.lastTimeAttacked + enemy.attackCoolDown + 3.5f)
+            if(Time.time >= enemy.lastTimeAttacked + enemy.attackCoolDown + 1.5f)
                 stateMachine.ChangeState(enemy.battleState);
         }
 
