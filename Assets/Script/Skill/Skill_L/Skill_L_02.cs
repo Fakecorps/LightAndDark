@@ -2,22 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class Skill_L_02 : Skill
 {
     [Header("Chain Settings")]
     public Transform castPoint;          // 光链发射点
-    public float chainRange = 8f;        // 光链射程
-    public float pullSpeed = 5f;         // 拉取速度
+    [Range(1f, 20f)] public float chainRange = 8f; // 可滑动调整的射程
+    [Range(1f, 10f)] public float pullSpeed = 5f;  // 可滑动调整的拉取速度
     public float stunDuration = 1f;      // 眩晕时间
-    public float minDistance = 1.5f;     // 拉取停止的最小距离
-    public float groundHeightOffset = 0.5f; // 地面高度偏移
+    [Range(0.5f, 5f)] public float minDistance = 1.5f; // 可滑动调整的最小距离
 
     [Header("Visual Settings")]
-    public GameObject chainSegmentPrefab; // 锁链段预制体
-    public float segmentSize = 0.5f;     // 每个锁链段的长度
-    public float chainSpeed = 10f;       // 锁链延伸速度
-    public float chainWidth = 0.1f;      // 锁链宽度
-    public Color chainColor = Color.white; // 锁链颜色
+    public GameObject chainVisualPrefab; // 带尖的锁链贴图预制体
+    [Range(1f, 20f)] public float chainExtendSpeed = 10f; // 可滑动调整的延伸速度
+    [Range(1f, 20f)] public float chainRetractSpeed = 15f; // 可滑动调整的收回速度
+    [Range(0.1f, 2f)] public float chainWidth = 0.5f; // 可滑动调整的锁链宽度
+    [Range(0f, 1f)] public float chainTipOffset = 0.1f;  // 可滑动调整的尖端偏移量
+
+    [Header("Visualization Tools")]
+    [Tooltip("在编辑器中显示可视化辅助")]
+    public bool showVisualization = true;
+    [Range(0f, 1f)] public float previewLength = 1f; // 预览长度比例
 
     [Header("Detection Settings")]
     public LayerMask enemyLayer;         // 敌人层级
@@ -30,11 +38,17 @@ public class Skill_L_02 : Skill
     private int facingDir;               // 玩家朝向
     private float enemyOriginalY;        // 敌人原始高度
 
-    // 锁链相关
-    private List<GameObject> chainSegments = new List<GameObject>();
+    // 锁链视觉相关
+    private GameObject chainVisual;      // 锁链视觉对象
+    private Transform chainTip;          // 锁链尖端
     private bool isExtending = false;    // 锁链是否正在延伸
     private bool isRetracting = false;   // 锁链是否正在收回
     private Vector3 chainTarget;         // 锁链目标位置
+    private Vector3 chainOrigin;         // 锁链起始位置（固定）
+    private float chainProgress;         // 锁链当前进度
+
+    // 施法状态
+    private bool isCasting = false;      // 是否正在施法
 
     public override void UseSkill()
     {
@@ -43,8 +57,15 @@ public class Skill_L_02 : Skill
         if (player == null)
             player = Player.ActivePlayer;
 
+        // 设置玩家施法状态
+        player.SetCastingSkill(true);
+        isCasting = true;
+
         // 保存玩家朝向
         facingDir = player.getFacingDir();
+
+        // 设置固定起始点
+        chainOrigin = castPoint.position;
 
         // 触发动画
         player.anim.SetTrigger("Skill_L_02");
@@ -70,7 +91,7 @@ public class Skill_L_02 : Skill
             if (enemyLayer == (enemyLayer | (1 << hit.collider.gameObject.layer)))
             {
                 capturedEnemy = hit.collider.GetComponent<Enemy>();
-                if (capturedEnemy != null)
+                if (capturedEnemy != null && capturedEnemy.IsAlive())
                 {
                     // 保存敌人原始高度
                     enemyOriginalY = capturedEnemy.transform.position.y;
@@ -78,8 +99,15 @@ public class Skill_L_02 : Skill
                     // 应用眩晕效果
                     capturedEnemy.ApplyStun(stunDuration);
 
-                    // 设置锁链目标位置
-                    chainTarget = capturedEnemy.transform.position;
+                    // 设置锁链目标位置（严格水平方向）
+                    chainTarget = new Vector3(
+                        capturedEnemy.transform.position.x,
+                        chainOrigin.y, // 使用与发射点相同的高度
+                        capturedEnemy.transform.position.z
+                    );
+
+                    // 创建锁链视觉
+                    CreateChainVisual();
 
                     // 开始锁链延伸
                     StartCoroutine(ExtendChain());
@@ -91,130 +119,150 @@ public class Skill_L_02 : Skill
         }
         else
         {
-            // 没有命中敌人，锁链延伸到最大距离
-            chainTarget = castPoint.position + Vector3.right * facingDir * chainRange;
-            StartCoroutine(ExtendChain());
-            StartCoroutine(RetractChain());
+            // 没有命中敌人，锁链延伸到最大距离（严格水平方向）
+            chainTarget = new Vector3(
+                castPoint.position.x + facingDir * chainRange,
+                castPoint.position.y, // 与发射点相同高度
+                castPoint.position.z
+            );
+
+            // 创建锁链视觉
+            CreateChainVisual();
+
+            // 开始延伸然后收回
+            StartCoroutine(ExtendThenRetract());
+        }
+    }
+
+    // 创建锁链视觉 - 使用美术提供的贴图
+    private void CreateChainVisual()
+    {
+        if (chainVisualPrefab == null)
+        {
+            Debug.LogWarning("锁链视觉预制体未设置");
+            return;
+        }
+
+        // 销毁现有锁链
+        if (chainVisual != null)
+        {
+            Destroy(chainVisual);
+        }
+
+        // 创建新锁链对象
+        chainVisual = Instantiate(
+            chainVisualPrefab,
+            chainOrigin, // 固定在发射点
+            Quaternion.identity
+        );
+
+        // 获取尖端引用
+        chainTip = chainVisual.transform.Find("Tip");
+        if (chainTip == null && chainVisual.transform.childCount > 0)
+        {
+            chainTip = chainVisual.transform.GetChild(0);
+        }
+
+        // 初始缩放
+        chainVisual.transform.localScale = new Vector3(0.1f, chainWidth, 1f);
+        chainProgress = 0f;
+
+        // 设置初始位置和旋转
+        UpdateChainVisual();
+    }
+
+    // 更新锁链视觉 - 尾端固定，前端延伸
+    private void UpdateChainVisual()
+    {
+        if (chainVisual == null) return;
+
+        // 计算方向
+        Vector3 direction = (chainTarget - chainOrigin).normalized;
+
+        // 始终固定在发射点
+        chainVisual.transform.position = chainOrigin;
+
+        // 设置旋转（朝向目标）
+        chainVisual.transform.right = direction;
+
+        // 计算当前长度
+        float currentLength = Vector3.Distance(chainOrigin, chainTarget) * chainProgress;
+
+        // 设置缩放（长度和宽度）
+        chainVisual.transform.localScale = new Vector3(
+            currentLength, // X轴缩放控制长度
+            chainWidth,    // Y轴缩放控制宽度
+            1f
+        );
+
+        // 调整尖端位置
+        if (chainTip != null)
+        {
+            // 尖端位置 = 起点 + 方向 * 当前长度
+            chainTip.position = chainOrigin + direction * currentLength;
         }
     }
 
     // 延伸锁链
     private IEnumerator ExtendChain()
     {
-        if (chainSegmentPrefab == null) yield break;
-
         isExtending = true;
         isRetracting = false;
-        ClearChain();
 
-        Vector3 startPos = castPoint.position;
-        Vector3 direction = (chainTarget - startPos).normalized;
-        float distance = Vector3.Distance(startPos, chainTarget);
-        int segmentsNeeded = Mathf.CeilToInt(distance / segmentSize);
+        float totalDistance = Vector3.Distance(chainOrigin, chainTarget);
+        float currentDistance = 0f;
 
-        float progress = 0f;
-
-        while (progress < distance && isExtending)
+        while (currentDistance < totalDistance && isExtending)
         {
-            progress += chainSpeed * Time.deltaTime;
-            progress = Mathf.Min(progress, distance);
+            currentDistance += chainExtendSpeed * Time.deltaTime;
+            chainProgress = Mathf.Clamp01(currentDistance / totalDistance);
 
-            Vector3 currentEnd = startPos + direction * progress;
-
-            // 更新或创建锁链段
-            UpdateChainSegments(startPos, currentEnd);
-
+            UpdateChainVisual();
             yield return null;
         }
 
+        chainProgress = 1f;
+        UpdateChainVisual();
         isExtending = false;
     }
 
-    // 更新锁链段
-    private void UpdateChainSegments(Vector3 start, Vector3 end)
+    // 延伸然后收回（用于未命中敌人）
+    private IEnumerator ExtendThenRetract()
     {
-        // 计算锁链参数
-        float distance = Vector3.Distance(start, end);
-        int segmentsNeeded = Mathf.CeilToInt(distance / segmentSize);
-        Vector3 direction = (end - start).normalized;
-
-        // 确保有足够的锁链段
-        while (chainSegments.Count < segmentsNeeded)
-        {
-            GameObject segment = Instantiate(chainSegmentPrefab, castPoint.position, Quaternion.identity);
-            chainSegments.Add(segment);
-
-            // 设置锁链外观
-            SpriteRenderer renderer = segment.GetComponent<SpriteRenderer>();
-            if (renderer != null)
-            {
-                renderer.color = chainColor;
-                renderer.sortingOrder = 5; // 确保在角色前面
-            }
-        }
-
-        // 移除多余段
-        while (chainSegments.Count > segmentsNeeded)
-        {
-            GameObject segment = chainSegments[chainSegments.Count - 1];
-            chainSegments.RemoveAt(chainSegments.Count - 1);
-            Destroy(segment);
-        }
-
-        // 定位锁链段
-        for (int i = 0; i < segmentsNeeded; i++)
-        {
-            float segmentProgress = (i + 0.5f) * segmentSize;
-            if (segmentProgress > distance) segmentProgress = distance - 0.1f;
-
-            Vector3 segmentPos = start + direction * segmentProgress;
-
-            // 设置位置和旋转
-            chainSegments[i].transform.position = segmentPos;
-            chainSegments[i].transform.right = direction;
-
-            // 设置缩放
-            chainSegments[i].transform.localScale = new Vector3(
-                segmentSize,
-                chainWidth,
-                1f
-            );
-        }
+        yield return StartCoroutine(ExtendChain());
+        yield return new WaitForSeconds(0.2f); // 短暂停留
+        yield return StartCoroutine(RetractChain());
     }
 
-    // 收回锁链
+    // 收回锁链 - 从目标点向起点收回
     private IEnumerator RetractChain()
     {
         isRetracting = true;
         isExtending = false;
 
-        float progress = Vector3.Distance(castPoint.position, chainTarget);
+        float totalDistance = Vector3.Distance(chainOrigin, chainTarget);
+        float currentDistance = totalDistance;
 
-        while (progress > 0 && isRetracting)
+        while (currentDistance > 0 && isRetracting)
         {
-            progress -= chainSpeed * Time.deltaTime;
-            progress = Mathf.Max(progress, 0);
+            currentDistance -= chainRetractSpeed * Time.deltaTime;
+            chainProgress = Mathf.Clamp01(currentDistance / totalDistance);
 
-            Vector3 currentEnd = castPoint.position + (chainTarget - castPoint.position).normalized * progress;
-
-            // 更新锁链段
-            UpdateChainSegments(castPoint.position, currentEnd);
-
+            UpdateChainVisual();
             yield return null;
         }
 
-        ClearChain();
-        isRetracting = false;
-    }
-
-    // 清除锁链
-    private void ClearChain()
-    {
-        foreach (GameObject segment in chainSegments)
+        // 销毁锁链
+        if (chainVisual != null)
         {
-            Destroy(segment);
+            Destroy(chainVisual);
+            chainVisual = null;
+            chainTip = null;
         }
-        chainSegments.Clear();
+
+        // 结束施法状态
+        EndSkillCasting();
+        isRetracting = false;
     }
 
     private IEnumerator PullEnemy()
@@ -230,17 +278,14 @@ public class Skill_L_02 : Skill
         // 临时禁用碰撞避免卡住
         if (enemyCollider != null) enemyCollider.enabled = false;
 
-        // 拉取循环
-        while (isPulling && capturedEnemy != null)
+        // 拉取循环 - 严格水平移动
+        while (isPulling && capturedEnemy != null && capturedEnemy.IsAlive())
         {
             // 计算敌人到玩家的水平距离
             Vector3 playerPos = player.transform.position;
             Vector3 enemyPos = capturedEnemy.transform.position;
 
-            // 保持敌人原始高度
-            enemyPos.y = enemyOriginalY;
-
-            // 计算水平距离
+            // 严格水平距离计算（忽略Y轴）
             float horizontalDistance = Mathf.Abs(playerPos.x - enemyPos.x);
 
             // 如果距离小于最小值，停止拉取
@@ -250,24 +295,29 @@ public class Skill_L_02 : Skill
             }
 
             // 计算拉取方向（仅水平方向）
-            Vector3 pullDirection = new Vector3(
-                Mathf.Sign(playerPos.x - enemyPos.x), // 水平方向
-                0, // 垂直方向设为0，保持高度不变
-                0
-            );
+            float pullDirection = Mathf.Sign(playerPos.x - enemyPos.x);
 
             // 计算移动向量（仅水平移动）
-            Vector3 moveVector = pullDirection * pullSpeed * Time.deltaTime;
+            float moveAmount = pullDirection * pullSpeed * Time.deltaTime;
 
             // 移动敌人（仅改变X坐标）
-            capturedEnemy.transform.position = new Vector3(
-                enemyPos.x + moveVector.x,
-                enemyOriginalY, // 保持原始高度
+            Vector3 newPosition = new Vector3(
+                enemyPos.x + moveAmount,
+                enemyOriginalY, // 严格保持原始高度
                 enemyPos.z
             );
 
-            // 更新锁链目标位置
-            chainTarget = capturedEnemy.transform.position;
+            capturedEnemy.transform.position = newPosition;
+
+            // 更新锁链目标位置（严格水平方向，保持与发射点相同高度）
+            chainTarget = new Vector3(
+                newPosition.x,
+                chainOrigin.y, // 使用与发射点相同的高度
+                newPosition.z
+            );
+
+            // 更新锁链视觉
+            UpdateChainVisual();
 
             yield return null;
         }
@@ -278,35 +328,12 @@ public class Skill_L_02 : Skill
             enemyCollider.enabled = originalColliderEnabled;
         }
 
-        // 确保敌人在地面上
-        PlaceEnemyOnGround();
-
         // 开始收回锁链
         StartCoroutine(RetractChain());
 
         // 结束拉取
         capturedEnemy = null;
         isPulling = false;
-    }
-
-    // 确保敌人放置在地面上
-    private void PlaceEnemyOnGround()
-    {
-        if (capturedEnemy == null) return;
-
-        RaycastHit2D groundHit = Physics2D.Raycast(
-            capturedEnemy.transform.position,
-            Vector2.down,
-            5f,
-            groundLayer
-        );
-
-        if (groundHit.collider != null)
-        {
-            Vector3 newPosition = capturedEnemy.transform.position;
-            newPosition.y = groundHit.point.y + groundHeightOffset;
-            capturedEnemy.transform.position = newPosition;
-        }
     }
 
     // 中断拉取
@@ -316,7 +343,14 @@ public class Skill_L_02 : Skill
         isExtending = false;
 
         // 开始收回锁链
-        StartCoroutine(RetractChain());
+        if (chainVisual != null)
+        {
+            StartCoroutine(RetractChain());
+        }
+        else
+        {
+            EndSkillCasting();
+        }
 
         if (capturedEnemy != null)
         {
@@ -326,9 +360,6 @@ public class Skill_L_02 : Skill
             {
                 enemyCollider.enabled = true;
             }
-
-            // 确保敌人在地面上
-            PlaceEnemyOnGround();
 
             capturedEnemy = null;
         }
@@ -363,11 +394,102 @@ public class Skill_L_02 : Skill
     // 当技能被取消时调用
     public void CancelSkill()
     {
-        if (isPulling || isExtending)
+        if (isCasting)
         {
             StopAllCoroutines();
-            player.SetCastingSkill(false);
             CancelPull();
+            EndSkillCasting();
+        }
+    }
+
+    // 可视化调整功能
+    private void OnDrawGizmosSelected()
+    {
+        if (!showVisualization || castPoint == null) return;
+
+        int facing = Application.isPlaying ? facingDir : 1;
+        if (facing == 0) facing = 1; // 避免0方向
+
+        // 绘制锁链最大射程
+        Gizmos.color = new Color(0, 0.5f, 1f, 0.7f); // 半透明蓝色
+        Vector3 endPoint = new Vector3(
+            castPoint.position.x + facing * chainRange,
+            castPoint.position.y,
+            castPoint.position.z
+        );
+        Gizmos.DrawLine(castPoint.position, endPoint);
+
+        // 绘制拉取停止距离
+        Gizmos.color = new Color(1f, 1f, 0, 0.5f); // 半透明黄色
+        Gizmos.DrawWireSphere(castPoint.position, minDistance);
+
+        // 绘制预览锁链
+        if (previewLength > 0)
+        {
+            Vector3 previewTarget = new Vector3(
+                castPoint.position.x + facing * chainRange * previewLength,
+                castPoint.position.y,
+                castPoint.position.z
+            );
+
+            // 计算方向
+            Vector3 direction = (previewTarget - castPoint.position).normalized;
+            float previewDistance = Vector3.Distance(castPoint.position, previewTarget);
+
+            // 绘制预览锁链
+            Gizmos.color = new Color(0, 1f, 0, 0.8f); // 半透明绿色
+            Gizmos.DrawLine(castPoint.position, previewTarget);
+
+            // 绘制预览尖端
+            Gizmos.DrawWireSphere(previewTarget, 0.1f);
+
+            // 绘制预览宽度指示器
+            Vector3 perpendicular = Vector3.Cross(direction, Vector3.forward).normalized;
+            Gizmos.DrawLine(
+                previewTarget - perpendicular * chainWidth * 0.5f,
+                previewTarget + perpendicular * chainWidth * 0.5f
+            );
+        }
+    }
+
+    // 结束施法状态
+    private void EndSkillCasting()
+    {
+        if (isCasting && player != null)
+        {
+            player.SetCastingSkill(false);
+            isCasting = false;
         }
     }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(Skill_L_02))]
+public class Skill_L_02Editor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        Skill_L_02 skill = (Skill_L_02)target;
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("可视化预览工具", EditorStyles.boldLabel);
+
+        // 添加预览滑块
+        skill.previewLength = EditorGUILayout.Slider("锁链长度预览", skill.previewLength, 0f, 1f);
+
+        // 添加可视化开关
+        skill.showVisualization = EditorGUILayout.Toggle("显示可视化", skill.showVisualization);
+
+        // 添加刷新按钮
+        if (GUILayout.Button("刷新预览"))
+        {
+            // 强制重绘场景视图
+            SceneView.RepaintAll();
+        }
+
+        EditorGUILayout.HelpBox("调整参数后，使用'刷新预览'按钮更新场景视图中的可视化效果。", MessageType.Info);
+    }
+}
+#endif
