@@ -45,12 +45,12 @@ public class EnemyState_Attack : EnemyState_Unprotected
         lastTimeTurned += Time.deltaTime;
         SetChaseTarget(Skill_D_03.Instance.isStealthed);
 
-        if (TargetTransform.position.x > enemy.transform.position.x&&lastTimeTurned>0.5f)
+        if (TargetTransform.position.x > enemy.transform.position.x&&lastTimeTurned>0.2f)
         {
             moveDir = 1;
             lastTimeTurned = 0;
         }
-        else if (TargetTransform.position.x < enemy.transform.position.x&&lastTimeTurned>0.5f)
+        else if (TargetTransform.position.x < enemy.transform.position.x&&lastTimeTurned>0.2f)
         {
             moveDir = -1;
             lastTimeTurned = 0;
