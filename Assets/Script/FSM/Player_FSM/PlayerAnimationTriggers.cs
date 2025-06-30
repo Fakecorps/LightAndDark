@@ -39,18 +39,5 @@ public class PlayerAnimationTriggers : MonoBehaviour
         }
     }
 
-    public void CreateSpikesEvent()
-    {
-        // 获取技能组件并触发地刺创建
-        Skill_L_03 spikeSkill = Skill_L_03.Instance;
-        if (spikeSkill != null)
-        {
-            spikeSkill.CreateSpikes();
-        }
-        else
-        {
-            Debug.LogWarning("未找到Skill_L_03组件");
-        }
-    }
 
 }

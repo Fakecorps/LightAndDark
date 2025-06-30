@@ -11,7 +11,7 @@ public class Projectile_SlashWave : MonoBehaviour
     [Header("Damage Settings")]
     public int damagePerTick = 5;
     public float tickInterval = 0.3f;
-    public float knockbackForce = 8f; // 增加击退力度
+    public float knockbackForce = 1f; // 增加击退力度
     public LayerMask enemyLayer;
     public float stunDuration = 0.5f;
 

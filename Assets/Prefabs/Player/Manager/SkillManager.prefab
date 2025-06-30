@@ -87,6 +87,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  boxSize: {x: 0, y: 0}
+  ParryDamage: 0
+  KnockBackForce: {x: 0, y: 0}
 --- !u!114 &6791343435283584616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,14 +107,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldown: 0
   castPoint: {fileID: 0}
-  chainPrefab: {fileID: 5407266233499799523, guid: babfc532a9601f846897f2ebdbc0c197, type: 3}
+  chainRange: 8
+  pullSpeed: 5
+  stunDuration: 1
+  minDistance: 1.5
+  groundHeightOffset: 0.5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  chainRange: 8
-  pullForce: 35
-  stunDuration: 1
-  chainWidth: 0.3
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &8744633442853874437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,7 +135,7 @@ MonoBehaviour:
   stunDuration: 1.5
   knockbackForce: 10
   skillRange: 5
-  width: 2
+  width: 1.97
   spikeRiseDuration: 0.5
   enemyLayer:
     serializedVersion: 2
@@ -145,14 +154,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0
-  wavePrefab: {fileID: 0}
+  wavePrefab: {fileID: 4759005466311266844, guid: 595cc212b42c6dc449eafc76a72e84a9, type: 3}
   spawnPoint: {fileID: 0}
-  waveSpeed: 3
+  waveSpeed: 5
   maxDistance: 15
-  waveScaleX: 5
-  waveScaleY: 7
-  animationDuration: 1.2
-  waveSpawnDelay: 0.8
+  animationDuration: 0.5
+  waveSpawnDelay: 0.5
   slashEffect: {fileID: 0}
 --- !u!114 &6520566222946105959
 MonoBehaviour:
@@ -218,7 +225,6 @@ MonoBehaviour:
   cooldown: 0
   decoyPrefab: {fileID: 7505473638089977611, guid: 709d822ef98029148891eed4c3798edd, type: 3}
   stealthDuration: 5
-  decoyDuration: 10
   explosionRadius: 5
   explosionDamage: 30
   DizzyDuration: 5

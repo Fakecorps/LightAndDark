@@ -13,8 +13,8 @@ public class Skill_L_04 : Skill
     public float maxDistance = 15f;
 
     [Header("Timing Settings")]
-    public float animationDuration = 1.2f;
-    public float waveSpawnDelay = 0.8f;
+    public float animationDuration = 0.5f;
+    public float waveSpawnDelay = 0.5f;
 
     [Header("Visual Effects")]
     public GameObject slashEffect;

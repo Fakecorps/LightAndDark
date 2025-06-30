@@ -10,34 +10,25 @@ public class Skill_L_03 : Skill
     public int damage = 60;
     public float stunDuration = 1.5f;
     public float knockbackForce = 10f;
-    public float skillRange = 5f;
-    public float width = 2f;
-    public float spikeRiseDuration = 0.5f;
+    public float animationDuration = 1.2f; // 动画总时长
 
-    [Header("Layer Settings")]
-    public LayerMask enemyLayer; // 确保在Inspector中正确设置层级
+    [Header("Detection Area")]
+    public Vector2 areaSize = new Vector2(5f, 2f); // 检测区域大小 (宽, 高)
+    public Vector2 areaOffset = new Vector2(2.5f, 0f); // 区域中心点偏移 (基于玩家位置)
+    public bool showGizmo = true; // 是否显示检测区域
 
     [Header("Prefabs")]
-    public GameObject spikePrefab;
+    public GameObject spikePrefab; // 带动画的地刺预制体
 
-    private List<GameObject> activeSpikes = new List<GameObject>();
+    [Header("Timing Settings")]
+    public float damageDelay = 0.4f; // 伤害延迟时间 (匹配动画关键帧)
+
     private bool isCasting;
+    private GameObject activeSpike; // 当前激活的地刺
 
     protected override void Start()
     {
         Instance = this;
-
-        // 验证层级设置
-        if (enemyLayer.value == 0)
-        {
-            Debug.LogWarning("enemyLayer未设置，将使用默认层级");
-            enemyLayer = LayerMask.GetMask("Enemy"); // 尝试获取"Enemy"层级
-        }
-    }
-
-    public override bool CanUseSkill()
-    {
-        return base.CanUseSkill();
     }
 
     public override void UseSkill()
@@ -50,116 +41,74 @@ public class Skill_L_03 : Skill
         player.anim.SetTrigger("Skill_L_03");
         isCasting = true;
         player.SetCastingSkill(true);
+
+        // 生成地刺
+        SpawnSpike();
     }
 
-    // 动画事件调用：创建地刺
-    public void CreateSpikes()
+    // 生成地刺
+    private void SpawnSpike()
     {
-        if (player == null || spikePrefab == null)
+        if (spikePrefab == null)
         {
-            Debug.LogWarning("玩家或地刺预制体为空");
+            Debug.LogWarning("地刺预制体未设置");
             return;
         }
 
-        // 获取玩家朝向
+        // 计算地刺位置
         int facingDir = player.getFacingDir();
-        Vector2 playerForward = Vector2.right * facingDir;
+        Vector3 spawnPosition = player.transform.position;
+        spawnPosition.x += areaOffset.x * facingDir;
+        spawnPosition.y += areaOffset.y;
 
-        // 在技能范围内生成地刺
-        int rows = 3;
-        int columns = 5;
+        // 创建地刺实例
+        activeSpike = Instantiate(
+            spikePrefab,
+            spawnPosition,
+            Quaternion.identity
+        );
 
-        for (int row = 0; row < rows; row++)
-        {
-            float rowDistance = (row + 1) * (skillRange / rows);
+        // 设置方向
+        Vector3 scale = activeSpike.transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * facingDir;
+        activeSpike.transform.localScale = scale;
 
-            for (int col = 0; col < columns; col++)
-            {
-                float colOffset = (col - columns / 2) * (width / columns);
-                Vector2 spikePos = (Vector2)player.transform.position +
-                                   playerForward * rowDistance +
-                                   Vector2.up * colOffset;
-
-                spikePos.y -= 2f; // 初始位置在地面以下
-
-                GameObject spike = Instantiate(
-                    spikePrefab,
-                    spikePos,
-                    Quaternion.identity
-                );
-                activeSpikes.Add(spike);
-                StartCoroutine(RiseSpike(spike, spikePos + Vector2.up * 2f));
-            }
-        }
-
-        // 检测并影响敌人
-        DetectAndAffectEnemies();
+        // 开始伤害检测协程
+        StartCoroutine(DamageSequence());
 
         // 清理地刺
-        StartCoroutine(CleanupSpikes());
+        StartCoroutine(CleanupSpike());
     }
 
-    // 地刺升起动画
-    private IEnumerator RiseSpike(GameObject spike, Vector2 targetPosition)
+    // 伤害序列
+    private IEnumerator DamageSequence()
     {
-        if (spike == null) yield break;
+        // 等待伤害触发时机
+        yield return new WaitForSeconds(damageDelay);
 
-        Vector2 startPosition = spike.transform.position;
-        float timer = 0f;
-
-        while (timer < spikeRiseDuration)
-        {
-            timer += Time.deltaTime;
-            float t = timer / spikeRiseDuration;
-
-            if (spike != null)
-            {
-                spike.transform.position = Vector2.Lerp(
-                    startPosition,
-                    targetPosition,
-                    t
-                );
-            }
-
-            yield return null;
-        }
+        // 执行伤害检测
+        DetectAndAffectEnemies();
     }
 
-    // 检测并影响敌人 - 修复层索引问题
+    // 检测并影响敌人
     private void DetectAndAffectEnemies()
     {
-        if (player == null)
-        {
-            Debug.LogWarning("玩家引用为空");
-            return;
-        }
+        if (player == null) return;
 
         // 获取玩家朝向
         int facingDir = player.getFacingDir();
 
         // 计算检测区域中心点
-        Vector2 center = (Vector2)player.transform.position +
-                         Vector2.right * facingDir * (skillRange / 2f);
+        Vector2 center = (Vector2)player.transform.position;
+        center.x += areaOffset.x * facingDir;
+        center.y += areaOffset.y;
 
-        // 2D 检测区域大小
-        Vector2 size = new Vector2(width, 4f);
-
-        // 确保层掩码有效
-        int validLayerMask = enemyLayer.value;
-
-        // 安全检测：如果层掩码无效，使用默认敌人层
-        if (validLayerMask == 0)
-        {
-            Debug.LogWarning("无效的enemyLayer，使用默认敌人层");
-            validLayerMask = LayerMask.GetMask("Enemy");
-        }
-
-        // 使用 Physics2D.OverlapBoxAll 进行 2D 检测
+        // 检测区域内的敌人
         Collider2D[] hitColliders = Physics2D.OverlapBoxAll(
             center,
-            size,
-            0, // 角度
-            validLayerMask
+            areaSize,
+            0f,
+            LayerMask.GetMask("Enemy")
         );
 
         foreach (Collider2D col in hitColliders)
@@ -181,18 +130,16 @@ public class Skill_L_03 : Skill
     }
 
     // 清理地刺
-    private IEnumerator CleanupSpikes()
+    private IEnumerator CleanupSpike()
     {
-        yield return new WaitForSeconds(1f);
+        // 等待动画结束
+        yield return new WaitForSeconds(animationDuration - damageDelay);
 
-        foreach (GameObject spike in activeSpikes)
+        if (activeSpike != null)
         {
-            if (spike != null)
-            {
-                Destroy(spike);
-            }
+            Destroy(activeSpike);
+            activeSpike = null;
         }
-        activeSpikes.Clear();
 
         player.SetCastingSkill(false);
         isCasting = false;
@@ -205,11 +152,11 @@ public class Skill_L_03 : Skill
         {
             StopAllCoroutines();
 
-            foreach (GameObject spike in activeSpikes)
+            if (activeSpike != null)
             {
-                if (spike != null) Destroy(spike);
+                Destroy(activeSpike);
+                activeSpike = null;
             }
-            activeSpikes.Clear();
 
             player.SetCastingSkill(false);
             isCasting = false;
@@ -219,17 +166,25 @@ public class Skill_L_03 : Skill
     // 可视化调试
     void OnDrawGizmosSelected()
     {
-        if (player == null) return;
+        if (!showGizmo || player == null) return;
 
-        Gizmos.color = new Color(1f, 0.5f, 0f, 0.5f);
-
+        // 获取玩家朝向
         int facingDir = player.getFacingDir();
-        Vector2 center = (Vector2)player.transform.position +
-                         Vector2.right * facingDir * (skillRange / 2f);
 
-        Vector3 size3D = new Vector3(width, 4f, 0.1f);
-        Vector3 center3D = new Vector3(center.x, center.y, player.transform.position.z);
+        // 计算检测区域中心点
+        Vector3 center = player.transform.position;
+        center.x += areaOffset.x * facingDir;
+        center.y += areaOffset.y;
 
-        Gizmos.DrawCube(center3D, size3D);
+        // 绘制检测区域
+        Gizmos.color = new Color(1f, 0.5f, 0f, 0.5f);
+        Gizmos.DrawCube(center, new Vector3(areaSize.x, areaSize.y, 0.1f));
+
+        // 绘制方向指示
+        Gizmos.color = Color.red;
+        Vector3 start = center;
+        Vector3 end = start + Vector3.right * areaSize.x * 0.5f * facingDir;
+        Gizmos.DrawLine(start, end);
+        Gizmos.DrawSphere(end, 0.1f);
     }
 }
